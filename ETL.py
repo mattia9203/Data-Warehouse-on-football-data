@@ -165,34 +165,38 @@ player_valuations.drop(columns=['date'], inplace=True)
 # Save the updated dataset
 updated_player_valuations_path = "data/updated_player_valuations_with_year.csv"
 #player_valuations.to_csv(updated_player_valuations_path, index=False)
+# ---------- paths ----------
+DATA_DIR   = "data"
+VAL_FILE   = os.path.join(DATA_DIR, "updated_player_valuations_with_year.csv")
+DATA_DIR   = "data/dataset_1"
+STAT_FILES = [  # all season‑stat csvs               ↓ add/remove as needed
+    "player_defense.csv", "player_gca.csv",
+    "player_misc.csv",    "player_shooting.csv",
+    "player_possession.csv", "player_passing_type.csv",
+    "player_passing.csv",    "player_standard_stats.csv"
+]
+STAT_FILES = [os.path.join(DATA_DIR, f) for f in STAT_FILES]
+# --------------------------------------------------------------------------
 
-dataset_2_path = "data/updated_player_valuations_with_year.csv"  # Adjust path
-dataset_2 = pd.read_csv(dataset_2_path)
+# 1) build a ***single lookup table***  (player, year)  -> squad
+pairs = []                       # collect mini‑tables, then concat once
+for path in STAT_FILES:
+    df = pd.read_csv(path, usecols=["player", "season", "squad"])
+    df.rename(columns={"player":"player_name",
+                       "season":"year",
+                       "squad":"club_in_year"}, inplace=True)
+    pairs.append(df.drop_duplicates())
 
-# Load dataset_1 (from several CSV files, which we need to merge together)
-dataset_1_paths = ["data/dataset_1/player_defense.csv", "data/dataset_1/player_gca.csv", "data/dataset_1/player_misc.csv", "data/dataset_1/player_passing.csv", "data/dataset_1/player_passing_type.csv", "data/dataset_1/player_playing_time.csv", "data/dataset_1/player_possession.csv", "data/dataset_1/player_shooting.csv", "data/dataset_1/player_standard_stats.csv"]  # Add your actual dataset paths here
+lookup = pd.concat(pairs, ignore_index=True).drop_duplicates()
 
-# Concatenate all dataset_1 CSV files into one DataFrame
-dataset_1 = pd.concat([pd.read_csv(path) for path in dataset_1_paths], ignore_index=True)
+# 2) load valuations and merge the club of that season
+valu = pd.read_csv(VAL_FILE)
+valu = valu.merge(lookup, on=["player_name", "year"], how="left")
 
-# Now, ensure the columns are properly named and consistent in both datasets
+# 3) fill gaps with CURRENT club_name if seasonal club missing
+valu["club_in_year"] = valu["club_in_year"].fillna(valu["club_name"])
 
-# Rename columns for consistency
-dataset_1.rename(columns={'player': 'player_name', 'squad': 'club_name', 'season': 'year'}, inplace=True)
-
-# Merge datasets to match the club name based on player name and year
-merged_df = pd.merge(dataset_2, dataset_1[['player_name', 'club_name', 'year']], 
-                     on=['player_name', 'year'], how='left')
-
-# Check for rows where the club name might be missing (e.g., if there's no match)
-#missing_club = merged_df[merged_df['club_name'].isna()]
-
-# If you want, you can print or inspect these rows to see why they have no club name
-#print(f"Rows with missing club names: {missing_club.shape[0]}")
-#print(missing_club)
-
-# Now, the merged_df will have a new column 'club_name' which contains the club of the player in the valuation year
-
-# Save the updated dataset_2 with the new 'club_name' column
-updated_dataset_2_path = "data/updated_player_valuations_with_club_name.csv"
-merged_df.to_csv(updated_dataset_2_path, index=False)
+# 4) report & save
+filled = valu["club_in_year"].notna().sum()
+print(f"club_in_year filled for {filled} of {len(valu)} rows (including fall‑back to current club)")
+valu.to_csv(os.path.join(DATA_DIR, "valuations_with_season_club.csv"), index=False)

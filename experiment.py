@@ -1,4 +1,6 @@
 import pandas as pd
+import os
+from textwrap import indent
 
 player_valuations_path = "data/updated_player_valuations_fuzzy.csv"
 dataset_1_path = "data/dataset_1/player_possession.csv"
@@ -51,3 +53,96 @@ print(f"Number of common year-player name pairs in both datasets: {num_common_pa
 # Optionally, show the first few common pairs for verification
 print("\nExample of common year-player pairs:")
 print(common_pairs.head())
+
+DATA1_DIR = "data/dataset_1"
+dataset1_files = [
+    "player_defense.csv", "player_gca.csv", "player_misc.csv",
+    "player_shooting.csv", "player_possession.csv", "player_passing_type.csv",
+    "player_passing.csv", "player_standard_stats.csv"
+]
+DATA2_DIR = "data"
+dataset2_files = ["valuations_with_season_club.csv"]
+
+all_files = dataset1_files + dataset2_files
+
+# ─── 2.  helper to pretty-print missing stats  ───────────────────────────────
+def report_missing(df, fname, top_n=10):
+    total_rows = len(df)
+    miss = df.isna().sum()
+    pct  = miss.mul(100/total_rows).round(2)
+    stats = pd.DataFrame({"missing": miss, "%": pct})
+    # keep only columns with at least 1 missing
+    stats = stats[stats["missing"] > 0].sort_values("%", ascending=False)
+
+    print(f"\n=== {fname} ===  rows: {total_rows}")
+    if stats.empty:
+        print("✓ no missing values")
+        return
+    print("top columns with missing values:")
+    print(indent(stats.head(top_n).to_string(), "  "))
+    print(f"… total columns with any missing: {len(stats)}")
+
+for fname in all_files:
+    if fname == "valuations_with_season_club.csv":
+        path = os.path.join(DATA2_DIR, fname)
+    else :
+        path = os.path.join(DATA1_DIR, fname)
+    try:
+        df = pd.read_csv(path)
+        report_missing(df, fname)
+    except FileNotFoundError:
+        print(f"  {fname} not found, skipped")
+
+DATA_DIR = "data/dataset_1"           # directory where the CSVs live
+
+files_to_check = [
+    "player_defense.csv",
+    "player_gca.csv",
+    "player_misc.csv",
+    "player_shooting.csv",
+    "player_possession.csv",
+    "player_passing_type.csv",
+    "player_passing.csv",
+    "player_standard_stats.csv",
+    #"valuations_with_season_club.csv"
+]
+# full paths
+files_to_check = [os.path.join(DATA_DIR, f) for f in files_to_check]
+# ─────────────────────────────────────────────────────────────────────
+
+OUTPUT_CSV = os.path.join(DATA2_DIR, "missing_value_report.csv")
+
+def first_non_null(series):
+    """Return first non-null value of a Series (or '' if none)."""
+    non_null = series.dropna()
+    return non_null.iloc[0] if not non_null.empty else ""
+
+rows = []   # will hold the final report
+
+for path in files_to_check:
+    fname = os.path.basename(path)
+    try:
+        df = pd.read_csv(path)
+    except FileNotFoundError:
+        print(f"⚠️  {fname} not found – skipped")
+        continue
+
+    total_rows = len(df)
+    for col in df.columns[df.isna().any()]:
+        miss_count = df[col].isna().sum()
+        rows.append({
+            "file": fname,
+            "column": col,
+            "rows": total_rows,
+            "missing": miss_count,
+            "%missing": round(miss_count * 100 / total_rows, 2),
+            "example_non_null": first_non_null(df[col])
+        })
+
+# -------- write the report --------
+report_df = pd.DataFrame(rows)
+report_df.to_csv(OUTPUT_CSV, index=False)
+
+print("✅ missing-value scan finished")
+print(f"📝 report saved to:  {OUTPUT_CSV}")
+print(report_df.head())
