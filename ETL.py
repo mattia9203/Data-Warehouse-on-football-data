@@ -8,7 +8,7 @@ players = pd.read_csv("data/dataset_2/players.csv")
 clubs = pd.read_csv("data/dataset_2/clubs.csv")
 competitions = pd.read_csv("data/dataset_2/competitions.csv")
 player_valuations = pd.read_csv("data/dataset_2/player_valuations.csv")
-
+"""
 # Merge the player_valuations dataset with player names, clubs, and competitions
 # Merge player names (player_id -> full_name)
 player_valuations = pd.merge(player_valuations, players[['player_id', 'first_name', 'last_name']], on='player_id', how='left')
@@ -199,4 +199,242 @@ valu["club_in_year"] = valu["club_in_year"].fillna(valu["club_name"])
 # 4) report & save
 filled = valu["club_in_year"].notna().sum()
 print(f"club_in_year filled for {filled} of {len(valu)} rows (including fall‑back to current club)")
-valu.to_csv(os.path.join(DATA_DIR, "valuations_with_season_club.csv"), index=False)
+valu.to_csv(os.path.join(DATA_DIR, "valuations_with_season_club.csv"), index=False)"""
+
+# ─── paths ──────────────────────────────────────────────────────────
+DATA1_DIR = "data/dataset_1"
+DATA2_DIR = "data/dataset_2"
+dataset1_files = [
+    "player_defense.csv", "player_gca.csv", "player_misc.csv",
+    "player_shooting.csv", "player_possession.csv",
+    "player_passing_type.csv", "player_passing.csv",
+    "player_standard_stats.csv"
+]
+
+players_path = os.path.join(DATA2_DIR, "players.csv")
+
+# ─── load players reference ─────────────────────────────────────────
+players_df = pd.read_csv(players_path)
+
+# Combine first and last names into player_name
+players_df['player_name'] = (
+    players_df['first_name'].fillna('') + ' ' + players_df['last_name'].fillna('')
+).str.strip()
+
+# Parse full datetime and extract just the year
+players_df['date_of_birth'] = pd.to_datetime(
+    players_df['date_of_birth'], errors='coerce'
+)
+players_df['year_of_birth'] = players_df['date_of_birth'].dt.year
+
+# 2) Build lookup table indexed by player_name
+players_ref = players_df.set_index('player_name')[[
+    'country_of_citizenship',   # for nation
+    'country_of_birth',          # for country
+    'year_of_birth'              # for born
+]]
+
+# 3) Process each stats file
+for fname in dataset1_files:
+    in_path = os.path.join(DATA1_DIR, fname)
+    if not os.path.exists(in_path):
+        print(f"⚠️  {fname} not found under {DATA1_DIR}, skipping.")
+        continue
+
+    df = pd.read_csv(in_path)
+
+    # Merge the reference on player_name
+    df = df.merge(
+        players_ref,
+        how='left',
+        left_on='player',
+        right_index=True
+    )
+
+    # Fill missing nation → citizenship → birth country
+    df['nation'] = (
+        df['nation']
+          .fillna(df['country_of_citizenship'])
+          .fillna(df['country_of_birth'])
+    )
+
+    # Fill missing country → birth country
+    df['country'] = df['country'].fillna(df['country_of_birth'])
+
+    # Fill missing born → birth year
+    df['born'] = df['born'].fillna(df['year_of_birth'])
+
+    # Only drop helper columns that actually exist
+    helper_cols = [
+        'country_of_citizenship',
+        'country_of_birth',
+        'date_of_birth',
+        'year_of_birth'
+    ]
+    cols_to_drop = [c for c in helper_cols if c in df.columns]
+    df = df.drop(columns=cols_to_drop)
+    
+    # Save cleaned output
+    out_path = os.path.join(DATA1_DIR, f"cleaned_{fname}")
+    df.to_csv(out_path, index=False)
+    print(f"✅ Processed {fname} → saved cleaned_{fname}")
+
+dataset1_files = [
+    "cleaned_player_defense.csv", "cleaned_player_gca.csv", "cleaned_player_misc.csv",
+    "cleaned_player_shooting.csv", "cleaned_player_possession.csv",
+    "cleaned_player_passing_type.csv", "cleaned_player_passing.csv",
+    "cleaned_player_standard_stats.csv"
+]
+
+for fname in dataset1_files:
+    path = os.path.join(DATA1_DIR, fname)
+    if not os.path.exists(path):
+        print(f"⚠️  {fname} not found, skipping.")
+        continue
+
+    df = pd.read_csv(path)
+
+    # Ensure born and season are numeric
+    df['born']   = pd.to_numeric(df['born'],   errors='coerce')
+    df['season'] = pd.to_numeric(df['season'], errors='coerce')
+
+    # mask: rows with missing age but valid born & season
+    mask = df['age'].isna() & df['born'].notna() & df['season'].notna()
+
+    # compute age
+    df.loc[mask, 'age'] = df.loc[mask, 'season'] - df.loc[mask, 'born']
+    
+    # save back
+    df.to_csv(path, index=False)
+    print(f"✅ {fname}: filled {mask.sum()} age values")
+    
+    # Phase A: build a country → continent dictionary from existing data
+# ═══════════════════════════════════════════════════════════════════════════
+country_to_continent = {}
+for fname in dataset1_files:
+    path = os.path.join(DATA1_DIR, fname)
+    if not os.path.exists(path):
+        continue
+    tmp = pd.read_csv(path, usecols=['country', 'continent']).dropna()
+    country_to_continent.update(
+        pd.Series(tmp.continent.values, index=tmp.country).to_dict()
+    )
+print(f"Lookup built: {len(country_to_continent)} country→continent pairs")
+
+# ═════════════════════════════════════════════════════════════════════
+# Phase B – fill country & continent; drop rows missing born
+# ═════════════════════════════════════════════════════════════════════
+players = pd.read_csv(players_path)
+players['player_name'] = (players['first_name'].fillna('') + ' ' +
+                          players['last_name'].fillna('')).str.strip()
+lookup_players = players.set_index('player_name')[['country_of_birth']]
+
+for fname in dataset1_files:
+    in_path = os.path.join(DATA1_DIR, fname)
+    if not os.path.exists(in_path):
+        print(f"⚠️  {fname} not found, skipping")
+        continue
+
+    df = pd.read_csv(in_path)
+
+    # Merge country_of_birth
+    df = df.merge(lookup_players, how='left',
+                  left_on='player', right_index=True)
+
+    # -------- fill COUNTRY -------------------------------------------
+    before_country_na = df['country'].isna().sum()
+    df['country'] = df['country'].fillna(df['country_of_birth'])
+    country_filled = before_country_na - df['country'].isna().sum()
+
+    # -------- fill CONTINENT -----------------------------------------
+    mask_continent = df['continent'].isna() & df['country'].notna()
+    before_continent_na = df['continent'].isna().sum()
+    df.loc[mask_continent, 'continent'] = df.loc[mask_continent, 'country'] \
+        .map(country_to_continent)
+    continent_filled = before_continent_na - df['continent'].isna().sum()
+
+    # Drop helper column
+    df.drop(columns=['country_of_birth'], inplace=True)
+
+    # -------- drop rows still missing born ---------------------------
+    before_rows = len(df)
+    df = df.dropna(subset=['born'])
+    dropped_rows = before_rows - len(df)
+
+    # Save cleaned file
+    out_path = os.path.join(DATA1_DIR, f"{fname}")
+    df.to_csv(out_path, index=False)
+
+    # Report
+    print(f"✅ {fname}: +{country_filled} country, +{continent_filled} continent "
+          f"filled; dropped {dropped_rows} rows  → saved cleaned2_{fname}")
+
+
+OUTPUT_FILE = "data/top8000_final_sample.csv"
+DATA2_FILE = "data/valuations_with_season_club.csv"
+OUTPUT_DIR1 = "data/dataset_1/selected_8000_stats"
+OUTPUT_DIR2 = "data/selected_8000"
+TOP_N = 8000
+DATA_DIR = "data"
+
+# --------------------------------------------------------------------
+
+MASTER_FILE = "cleaned_player_standard_stats.csv"   # used to rank nulls
+# --------------------------------------------------------------------
+
+os.makedirs(OUTPUT_DIR1, exist_ok=True)
+os.makedirs(OUTPUT_DIR2, exist_ok=True)
+
+# 1 ── load the FULL valuation file (all columns) and build the pair-set
+val_df = pd.read_csv(DATA2_FILE)                # <-- no usecols
+val_pairs = set(zip(val_df['player_name'], val_df['year']))
+print(f"Pairs in valuations: {len(val_pairs):,}")
+
+# 2 ── Load MASTER stats file to score nulls
+master_path = os.path.join(DATA1_DIR, MASTER_FILE)
+master_df = pd.read_csv(master_path)
+
+# keep rows with country & continent and that exist in valuations
+mask = (
+    master_df['country'].notna() &
+    master_df['continent'].notna() &
+    [(p, s) in val_pairs for p, s in zip(master_df['player'],
+                                        master_df['season'])]
+)
+master_df = master_df.loc[mask].copy()
+
+# compute per-row missing count (excluding key columns)
+feature_cols = [c for c in master_df.columns if c not in ('player', 'season')]
+master_df['missing'] = master_df[feature_cols].isna().sum(axis=1)
+
+# rank and take best TOP_N pairs
+top_pairs = (
+    master_df
+      .sort_values('missing')
+      .head(TOP_N)[['player', 'season']]
+)
+pair_set = set(zip(top_pairs['player'], top_pairs['season']))
+print(f"Selected {len(pair_set)} best pairs")
+
+# 3 ── Filter every stats file to those pairs
+for fname in dataset1_files:
+    src = os.path.join(DATA1_DIR, fname)
+    if not os.path.exists(src):
+        print(f"⚠️  {fname} missing, skipped")
+        continue
+    df = pd.read_csv(src)
+    df_sel = df.loc[
+        [(p, s) in pair_set for p, s in zip(df['player'], df['season'])]
+    ]
+    out = os.path.join(OUTPUT_DIR1, f"selected_{fname}")
+    df_sel.to_csv(out, index=False)
+    print(f"  ↳ {fname}: kept {len(df_sel):,} rows → {out}")
+
+# 4 ── filter the FULL valuation DataFrame and keep every column
+val_sel = val_df.loc[
+    [(p, y) in pair_set for p, y in zip(val_df['player_name'],
+                                       val_df['year'])]
+]
+val_out = os.path.join(OUTPUT_DIR2, "selected_valuations.csv")
+val_sel.to_csv(val_out, index=False)
+print(f"Valuations kept {len(val_sel):,} full rows → {val_out}")

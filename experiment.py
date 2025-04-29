@@ -56,9 +56,9 @@ print(common_pairs.head())
 
 DATA1_DIR = "data/dataset_1"
 dataset1_files = [
-    "player_defense.csv", "player_gca.csv", "player_misc.csv",
-    "player_shooting.csv", "player_possession.csv", "player_passing_type.csv",
-    "player_passing.csv", "player_standard_stats.csv"
+    "cleaned_player_defense.csv", "cleaned_player_gca.csv", "cleaned_player_misc.csv",
+    "cleaned_player_shooting.csv", "cleaned_player_possession.csv", "cleaned_player_passing_type.csv",
+    "cleaned_player_passing.csv", "cleaned_player_standard_stats.csv"
 ]
 DATA2_DIR = "data"
 dataset2_files = ["valuations_with_season_club.csv"]
@@ -96,14 +96,14 @@ for fname in all_files:
 DATA_DIR = "data/dataset_1"           # directory where the CSVs live
 
 files_to_check = [
-    "player_defense.csv",
-    "player_gca.csv",
-    "player_misc.csv",
-    "player_shooting.csv",
-    "player_possession.csv",
-    "player_passing_type.csv",
-    "player_passing.csv",
-    "player_standard_stats.csv",
+    "cleaned_player_defense.csv",
+    "cleaned_player_gca.csv",
+    "cleaned_player_misc.csv",
+    "cleaned_player_shooting.csv",
+    "cleaned_player_possession.csv",
+    "cleaned_player_passing_type.csv",
+    "cleaned_player_passing.csv",
+    "cleaned_player_standard_stats.csv",
     #"valuations_with_season_club.csv"
 ]
 # full paths
@@ -146,3 +146,4 @@ report_df.to_csv(OUTPUT_CSV, index=False)
 print("✅ missing-value scan finished")
 print(f"📝 report saved to:  {OUTPUT_CSV}")
 print(report_df.head())
+
