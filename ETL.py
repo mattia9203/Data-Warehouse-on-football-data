@@ -200,7 +200,7 @@ valu["club_in_year"] = valu["club_in_year"].fillna(valu["club_name"])
 filled = valu["club_in_year"].notna().sum()
 print(f"club_in_year filled for {filled} of {len(valu)} rows (including fall‑back to current club)")
 valu.to_csv(os.path.join(DATA_DIR, "valuations_with_season_club.csv"), index=False)"""
-
+""""
 # ─── paths ──────────────────────────────────────────────────────────
 DATA1_DIR = "data/dataset_1"
 DATA2_DIR = "data/dataset_2"
@@ -370,71 +370,161 @@ for fname in dataset1_files:
           f"filled; dropped {dropped_rows} rows  → saved cleaned2_{fname}")
 
 
-OUTPUT_FILE = "data/top8000_final_sample.csv"
-DATA2_FILE = "data/valuations_with_season_club.csv"
-OUTPUT_DIR1 = "data/dataset_1/selected_8000_stats"
-OUTPUT_DIR2 = "data/selected_8000"
-TOP_N = 8000
+
+VAL_FILE = "valuations_with_season_club.csv"
+DATA1_DIR = "data/dataset_1"
 DATA_DIR = "data"
-
+TOP_N  = 8000
+OUT_DIR = "data/global_selected_8000"
+os.makedirs(OUT_DIR, exist_ok=True)
 # --------------------------------------------------------------------
 
-MASTER_FILE = "cleaned_player_standard_stats.csv"   # used to rank nulls
-# --------------------------------------------------------------------
+# 1 ── read valuations (all columns) & build a MultiIndex set
+val = pd.read_csv(os.path.join(DATA_DIR, VAL_FILE))
+val_pairs = set(zip(val['player_name'], val['year']))
 
-os.makedirs(OUTPUT_DIR1, exist_ok=True)
-os.makedirs(OUTPUT_DIR2, exist_ok=True)
+# 2 ── master table of unique (player, season) pairs
+master = pd.Series(0, dtype=int,
+                   index=pd.MultiIndex(levels=[[], []],
+                                       codes=[[], []],
+                                       names=['player', 'season']))
 
-# 1 ── load the FULL valuation file (all columns) and build the pair-set
-val_df = pd.read_csv(DATA2_FILE)                # <-- no usecols
-val_pairs = set(zip(val_df['player_name'], val_df['year']))
-print(f"Pairs in valuations: {len(val_pairs):,}")
-
-# 2 ── Load MASTER stats file to score nulls
-master_path = os.path.join(DATA1_DIR, MASTER_FILE)
-master_df = pd.read_csv(master_path)
-
-# keep rows with country & continent and that exist in valuations
-mask = (
-    master_df['country'].notna() &
-    master_df['continent'].notna() &
-    [(p, s) in val_pairs for p, s in zip(master_df['player'],
-                                        master_df['season'])]
-)
-master_df = master_df.loc[mask].copy()
-
-# compute per-row missing count (excluding key columns)
-feature_cols = [c for c in master_df.columns if c not in ('player', 'season')]
-master_df['missing'] = master_df[feature_cols].isna().sum(axis=1)
-
-# rank and take best TOP_N pairs
-top_pairs = (
-    master_df
-      .sort_values('missing')
-      .head(TOP_N)[['player', 'season']]
-)
-pair_set = set(zip(top_pairs['player'], top_pairs['season']))
-print(f"Selected {len(pair_set)} best pairs")
-
-# 3 ── Filter every stats file to those pairs
 for fname in dataset1_files:
-    src = os.path.join(DATA1_DIR, fname)
-    if not os.path.exists(src):
-        print(f"⚠️  {fname} missing, skipped")
-        continue
-    df = pd.read_csv(src)
-    df_sel = df.loc[
-        [(p, s) in pair_set for p, s in zip(df['player'], df['season'])]
-    ]
-    out = os.path.join(OUTPUT_DIR1, f"selected_{fname}")
-    df_sel.to_csv(out, index=False)
-    print(f"  ↳ {fname}: kept {len(df_sel):,} rows → {out}")
+    df = pd.read_csv(os.path.join(DATA1_DIR, fname))
 
-# 4 ── filter the FULL valuation DataFrame and keep every column
-val_sel = val_df.loc[
-    [(p, y) in pair_set for p, y in zip(val_df['player_name'],
-                                       val_df['year'])]
+    # keep rows present in valuations
+    mask_val = [(p, s) in val_pairs for p, s in zip(df['player'], df['season'])]
+    df = df.loc[mask_val]
+
+    # ensure country & continent present
+    df = df[df['country'].notna() & df['continent'].notna()]
+
+    # compute per-row nulls (exclude keys)
+    nulls = (df.drop(columns=['player', 'season'])
+               .isna()
+               .sum(axis=1))
+
+    # index by the pair and sum duplicates
+    nulls.index = pd.MultiIndex.from_arrays([df['player'], df['season']],
+                                            names=['player', 'season'])
+    nulls = nulls.groupby(level=[0, 1]).sum()
+
+    # align and add
+    master = master.reindex(master.index.union(nulls.index), fill_value=0)
+    master += nulls.reindex(master.index, fill_value=0)
+
+print(f"Unique pairs considered: {len(master):,}")
+
+# 3 ── choose the best TOP_N unique pairs
+top_pairs = (master.sort_values()
+                    .head(TOP_N)
+                    .index            # MultiIndex
+                    .tolist())
+pair_set = set(top_pairs)
+print(f"Selected exactly {len(pair_set)} unique pairs with minimal nulls")
+
+# 4 ── export filtered stats files (deduplicated)
+for fname in dataset1_files:
+    df = pd.read_csv(os.path.join(DATA1_DIR, fname))
+    df = df[df.set_index(['player', 'season']).index.isin(pair_set)]
+    # drop duplicates per pair, keep first
+    df = df.drop_duplicates(subset=['player', 'season'], keep='first')
+    out_path = os.path.join(OUT_DIR, f"selected_{fname}")
+    df.to_csv(out_path, index=False)
+    print(f"  ↳ {fname}: {len(df):,} rows written")
+
+# 5 ── export filtered valuations file (deduplicated)
+val_sel = val[val.set_index(['player_name', 'year']).index.isin(pair_set)]
+val_sel = val_sel.drop_duplicates(subset=['player_name', 'year'], keep='first')
+val_sel.to_csv(os.path.join(OUT_DIR, "selected_valuations.csv"), index=False)
+print(f"Valuations rows written: {len(val_sel):,}")
+
+print("\n✅ All files in", OUT_DIR,
+      "contain the same 8 000 unique player-season pairs with minimal missing data.")
+"""
+DATA_DIR   = "data/global_selected_8000"      # folder with selected_* CSVs
+PLAYERS_CSV = "data/dataset_2/players.csv"              # reference file
+OUT_DIR   = "data/global_selected_8000"
+os.makedirs(OUT_DIR, exist_ok=True)
+STAT_FILES = [f for f in os.listdir(DATA_DIR)
+              if f.startswith("selected_cleaned_player_") and f.endswith(".csv")]
+VAL_FILE   = "selected_valuations.csv"
+
+# columns to drop from players.csv
+DROP_COLS = [
+    "first_name", "last_name", "current_club_id", "player_code",
+    "date_of_birth", "contract_expiration_date", "agent_name",
+    "image_url", "url", "current_club_domestic_competition_id",
+    "current_club_name", "market_value_in_eur"
 ]
-val_out = os.path.join(OUTPUT_DIR2, "selected_valuations.csv")
-val_sel.to_csv(val_out, index=False)
-print(f"Valuations kept {len(val_sel):,} full rows → {val_out}")
+# --------------------------------------------------------------------
+
+# 1 ── build unified player_name in players.csv
+players = pd.read_csv(PLAYERS_CSV)
+players["player_name"] = (
+    players["first_name"].fillna("") + " " + players["last_name"].fillna("")
+).str.strip()
+
+# 2 ── collect every player in any selected file
+selected_players = set()
+
+val_df = pd.read_csv(os.path.join(DATA_DIR, VAL_FILE))
+selected_players.update(val_df["player_name"].unique())
+
+for f in STAT_FILES:
+    tmp = pd.read_csv(os.path.join(DATA_DIR, f), usecols=["player"])
+    selected_players.update(tmp["player"].unique())
+
+# 3 ── build filtered lookup and drop unnecessary cols
+player_lookup = (
+    players[players["player_name"].isin(selected_players)]
+      .drop(columns=[c for c in DROP_COLS if c in players.columns])
+      .loc[:, ["player_id", "player_name"]]
+)
+#player_lookup.to_csv(os.path.join(OUT_DIR, "player_lookup.csv"), index=False)
+# --- Save a full reduced players table (OPTIONAL) -------------------
+players_filtered = players[players["player_name"].isin(selected_players)].copy()
+
+# drop the unwanted columns
+players_filtered = players_filtered.drop(
+    columns=[c for c in DROP_COLS if c in players_filtered.columns]
+)
+players_filtered = players_filtered.drop(columns=["player_name", "position", "sub_position"])
+
+# move player_id first
+cols = players_filtered.columns.tolist()
+cols.insert(0, cols.pop(cols.index("player_id")))
+players_filtered = players_filtered[cols]
+
+# save
+players_filtered.to_csv(os.path.join(OUT_DIR, "selected_players.csv"),
+                        index=False)
+print("players_filtered.csv written with", len(players_filtered), "rows")
+
+# 4 ── mapping dict
+id_map = player_lookup.set_index("player_name")["player_id"].to_dict()
+
+def move_player_id_first(df: pd.DataFrame) -> pd.DataFrame:
+    """Return df with player_id as first column."""
+    cols = df.columns.tolist()
+    if "player_id" in cols:
+        cols.insert(0, cols.pop(cols.index("player_id")))
+        df = df[cols]
+    return df
+
+# 5 ── stats files
+for f in STAT_FILES:
+    df = pd.read_csv(os.path.join(DATA_DIR, f))
+    df["player_id"] = df["player"].map(id_map)
+    if "rk" in df.columns:
+        df = df.drop(columns="rk")
+    df = move_player_id_first(df)
+    df.to_csv(os.path.join(OUT_DIR, f), index=False)
+
+# 6 ── valuation file
+val_df["player_id"] = val_df["player_name"].map(id_map)
+val_df = move_player_id_first(val_df)
+val_df.to_csv(os.path.join(OUT_DIR, VAL_FILE), index=False)
+
+print("✅ All updated files saved in", OUT_DIR,
+      "with player_id as the first column.")

@@ -93,17 +93,17 @@ for fname in all_files:
     except FileNotFoundError:
         print(f"  {fname} not found, skipped")
 
-DATA_DIR = "data/dataset_1"           # directory where the CSVs live
+DATA_DIR = "data/global_selected_8000"           # directory where the CSVs live
 
 files_to_check = [
-    "cleaned_player_defense.csv",
-    "cleaned_player_gca.csv",
-    "cleaned_player_misc.csv",
-    "cleaned_player_shooting.csv",
-    "cleaned_player_possession.csv",
-    "cleaned_player_passing_type.csv",
-    "cleaned_player_passing.csv",
-    "cleaned_player_standard_stats.csv",
+    "selected_cleaned_player_defense.csv",
+    "selected_cleaned_player_gca.csv",
+    "selected_cleaned_player_misc.csv",
+    "selected_cleaned_player_shooting.csv",
+    "selected_cleaned_player_possession.csv",
+    "selected_cleaned_player_passing_type.csv",
+    "selected_cleaned_player_passing.csv",
+    "selected_cleaned_player_standard_stats.csv",
     #"valuations_with_season_club.csv"
 ]
 # full paths
@@ -147,3 +147,90 @@ print("✅ missing-value scan finished")
 print(f"📝 report saved to:  {OUTPUT_CSV}")
 print(report_df.head())
 
+files_to_check = [
+    "selected_cleaned_player_defense.csv",
+    "selected_cleaned_player_gca.csv",
+    "selected_cleaned_player_misc.csv",
+    "selected_cleaned_player_shooting.csv",
+    "selected_cleaned_player_possession.csv",
+    "selected_cleaned_player_passing_type.csv",
+    "selected_cleaned_player_passing.csv",
+    "selected_cleaned_player_standard_stats.csv",
+    #"valuations_with_season_club.csv"
+]
+
+for f in files_to_check:    
+    print(f)
+    df = pd.read_csv(os.path.join(DATA_DIR, f))
+    print("Total missing cells:", df.isna().sum().sum())
+    
+OUT_DIR = "data/global_selected_8000"        # folder with selected_* CSVs
+STAT_FILES = [
+    "selected_cleaned_player_defense.csv", "selected_cleaned_player_gca.csv",
+    "selected_cleaned_player_misc.csv",    "selected_cleaned_player_shooting.csv",
+    "selected_cleaned_player_possession.csv", "selected_cleaned_player_passing_type.csv",
+    "selected_cleaned_player_passing.csv",    "selected_cleaned_player_standard_stats.csv", "selected_valuations.csv"
+]
+VAL_FILE = "selected_valuations.csv"
+# --------------------------------------------------------------------
+"""
+# 1 ── build the reference pair-set from the valuation file
+val_df = pd.read_csv(os.path.join(OUT_DIR, VAL_FILE))
+ref_pairs = set(zip(val_df["player_name"], val_df["year"]))
+assert len(ref_pairs) == 8000, "Valuation file does not have exactly 8 000 pairs!"
+print("Reference pair-set size:", len(ref_pairs))
+
+all_ok = True
+
+# 2 ── check every stats file against the reference
+for fname in STAT_FILES:
+    path = os.path.join(OUT_DIR, fname)
+    if not os.path.exists(path):
+        print(f"⚠️ {fname} not found – skipped")
+        continue
+
+    df = pd.read_csv(path)
+    pairs = set(zip(df["player"], df["season"]))
+
+    missing = ref_pairs - pairs      # in reference but not in this file
+    extra   = pairs - ref_pairs      # in this file but not in reference
+
+    if not missing and not extra:
+        print(f"✅ {fname}: OK – all 8 000 pairs present")
+    else:
+        all_ok = False
+        print(f"❌ {fname}:")
+        print(f"   • missing pairs: {len(missing)}")
+        print(f"   • extra pairs  : {len(extra)}")
+        # uncomment next two lines to print the first few differences
+        # if missing: print('     e.g.', list(missing)[:5])
+        # if extra:   print('     e.g.', list(extra)[:5])
+
+if all_ok:
+    print("\n🎉 Verification passed – every selected file contains the same 8 000 player-season pairs.")
+else:
+    print("\n⚠️  Verification found inconsistencies. See details above.")
+    """
+
+OUTPUT_TXT = os.path.join("data", "all_unique_columns.txt")
+# --------------------------------------------------------------------
+
+unique_cols = set()
+
+for fname in STAT_FILES:
+    path = os.path.join(DATA_DIR, fname)
+    if not os.path.exists(path):
+        print(f"⚠️  {fname} not found, skipping")
+        continue
+    df = pd.read_csv(path, nrows=0)          # only header
+    unique_cols.update(df.columns)
+
+# sort alphabetically for readability
+sorted_cols = sorted(unique_cols)
+
+# save to txt
+with open(OUTPUT_TXT, "w", encoding="utf-8") as f:
+    for col in sorted_cols:
+        f.write(col + "\n")
+
+print(f"✅ Saved {len(sorted_cols)} unique column names to {OUTPUT_TXT}")
