@@ -442,6 +442,7 @@ print(f"Valuations rows written: {len(val_sel):,}")
 print("\n✅ All files in", OUT_DIR,
       "contain the same 8 000 unique player-season pairs with minimal missing data.")
 """
+"""
 DATA_DIR   = "data/global_selected_8000"      # folder with selected_* CSVs
 PLAYERS_CSV = "data/dataset_2/players.csv"              # reference file
 OUT_DIR   = "data/global_selected_8000"
@@ -505,7 +506,7 @@ print("players_filtered.csv written with", len(players_filtered), "rows")
 id_map = player_lookup.set_index("player_name")["player_id"].to_dict()
 
 def move_player_id_first(df: pd.DataFrame) -> pd.DataFrame:
-    """Return df with player_id as first column."""
+    """ """Return df with player_id as first column.""" """
     cols = df.columns.tolist()
     if "player_id" in cols:
         cols.insert(0, cols.pop(cols.index("player_id")))
@@ -527,4 +528,25 @@ val_df = move_player_id_first(val_df)
 val_df.to_csv(os.path.join(OUT_DIR, VAL_FILE), index=False)
 
 print("✅ All updated files saved in", OUT_DIR,
-      "with player_id as the first column.")
+      "with player_id as the first column.")"""
+
+VAL_PATH = "data/global_selected_8000/selected_valuations.csv"
+
+# 1) read the file
+val_df = pd.read_csv(VAL_PATH)
+
+# 2) rename columns
+val_df = val_df.rename(columns={
+    "player_name": "player",            # player_name → player
+    "year": "season",                   # year        → season
+    "club_in_year": "club_in_season"    # club_in_year→ club_in_season
+})
+
+# 3) put player_id first again (optional, if you want to keep that rule)
+cols = val_df.columns.tolist()
+if "player_id" in cols:
+    cols.insert(0, cols.pop(cols.index("player_id")))
+    val_df = val_df[cols]
+
+# 4) save back (overwrite or new name)
+val_df.to_csv(VAL_PATH, index=False)
