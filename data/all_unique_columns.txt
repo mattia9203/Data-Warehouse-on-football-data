@@ -18,7 +18,7 @@ carries_into_final_third
 carries_into_penalty_area
 challenges_lost
 clearances
-club_in_year
+club_in_season
 club_name
 comp
 competition_name
@@ -101,7 +101,7 @@ penalties_won
 penalty_kicks
 penalty_kicks_attempted
 player
-player_name
+player_id
 position
 progressive_carries
 progressive_carries_distance
@@ -109,7 +109,6 @@ progressive_pass_distance
 progressive_passes
 progressive_passes_received
 red_cards
-rk
 sca_per_90
 season
 second_yellow_cards
@@ -151,5 +150,4 @@ xag_per_90
 xg
 xg_per_90
 xg_plus_xag_per_90
-year
 yellow_cards
