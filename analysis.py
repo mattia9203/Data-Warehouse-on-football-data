@@ -8,10 +8,9 @@ from sqlalchemy import create_engine
 import os
 import statsmodels.formula.api as smf
 
-# Fill in your actual PostgreSQL credentials
 user = "postgres"
-password = "maucione_M03"
-host = "localhost"  # or your IP if it's remote
+password = ""
+host = "localhost"  
 port = "5432"       # default PostgreSQL port
 database = "Football_Data_DW"
 
@@ -21,7 +20,7 @@ conn = engine.connect()
 print("Connection OK:", conn.closed == False)
 conn.close()
 os.makedirs('Analysis', exist_ok=True)
-"""
+
 #First analysis
 def plot_age_value_relationship(df, role_label):
     # Normalize market values to M€
@@ -64,31 +63,27 @@ def plot_age_value_relationship(df, role_label):
     X = sm.add_constant(df['age_gap'])
     y = df['value_gap']
     model = sm.OLS(y, X).fit()
-    print(f"📉 {role_label} Regression Results:\n{model.summary()}\n")
+    print(f"{role_label} Regression Results:\n{model.summary()}\n")
 
-# Load and visualize Forwards
 df_fwds = pd.read_sql("SELECT * FROM FOOTBALL.vw_age_value_comparison_forward", engine)
 plot_age_value_relationship(df_fwds, "Forward")
 
-
-# Load and visualize Midfielders
 df_fwds = pd.read_sql("SELECT * FROM FOOTBALL.vw_age_value_comparison_midfielder", engine)
 plot_age_value_relationship(df_fwds, "Midfielder")
 
-# Load and visualize Defenders
 df_defs = pd.read_sql("SELECT * FROM FOOTBALL.vw_age_value_comparison_defender", engine)
 plot_age_value_relationship(df_defs, "Defender")
 
 #Second analysis 
 
 def metric_importance(view, metrics, role_label):
-    # 1. Load data
+    # Load data
     df = pd.read_sql(f"SELECT * FROM FOOTBALL.{view}", engine)
     
-    # 2. Drop any missing
+    # Drop any missing
     df = df.dropna(subset=metrics + ['market_value_m'])
     
-    # 3. Compute R² for each metric
+    # Compute R² for each metric
     r2_scores = {}
     for m in metrics:
         X = sm.add_constant(df[[m]])
@@ -101,7 +96,7 @@ def metric_importance(view, metrics, role_label):
         print(model.summary().tables[1])
         print(f"R² = {model.rsquared:.3f}\n")
     
-    # 4. Plot R² bar chart
+    #Plot R² bar chart
     r2_series = pd.Series(r2_scores).sort_values(ascending=False)
     plt.figure(figsize=(6,4))
     r2_series.plot(kind='bar')
@@ -112,7 +107,6 @@ def metric_importance(view, metrics, role_label):
     plt.savefig(f"analysis/{role_label.lower()}_r2.png")
     plt.show()
 
-# ——— Forwards ———
 forward_metrics = [
     'goals_per_90',
     'assists_per_90',
@@ -132,7 +126,6 @@ midfielder_metrics = [
 ]
 metric_importance('vw_midfielder_metric_importance', midfielder_metrics, 'Midfielder')
 
-# ——— Defenders ———
 defender_metrics = [
     'tackles_per90',
     'interceptions_per90',
@@ -144,26 +137,26 @@ metric_importance('vw_defender_metric_importance', defender_metrics, 'Defender')
 
 #Third analysis
 def analyze_league_bias(view, role_label):
-    # 1. Load the view (assumes `engine` is already defined)
+    # Load the view 
     with engine.connect() as conn:
         df = pd.read_sql(f"SELECT * FROM FOOTBALL.{view}", conn)
 
-    # 2. Identify which columns are your five per-90 metrics
+    # Identify columns 
     metadata = ['player_name', 'season_text', 'club_name', 'competition', 'market_value_m']
     metrics  = [c for c in df.columns if c not in metadata]
 
-    # 3. Standardize each metric to a z-score: (x – mean)/std
+    # Standardize each metric to a z-score
     for m in metrics:
         df[f"{m}_z"] = (df[m] - df[m].mean()) / df[m].std(ddof=0)
 
-    # 4. Composite performance score = sum of the five z-scores
+    # Composite performance score = sum of the five z-scores
     z_cols = [f"{m}_z" for m in metrics]
     df['perf_score'] = df[z_cols].sum(axis=1)
 
-    # 5. Bin into 5 equal‐sized performance groups (quintiles)
+    # Bin into 5 equal‐sized performance groups (quintiles)
     df['perf_q'] = pd.qcut(df['perf_score'], 5, labels=False)
 
-    # 6. For each quintile, plot market value by league
+    # For each quintile, plot market value by league
     for q in sorted(df['perf_q'].unique()):
         subset = df[df['perf_q'] == q]
         top_leagues = subset['competition'].value_counts().nlargest(5).index
@@ -180,12 +173,11 @@ def analyze_league_bias(view, role_label):
         plt.savefig(f"analysis/{role_label.lower()}_league_q{q+1}.png")
         plt.close()
 
-    # 7. Regression with league fixed effects
+    #Regression with league fixed effects
     model = ols('market_value_m ~ perf_score + C(competition)', data=df).fit()
     print(f"\n--- {role_label} League Bias Regression ---")
     print(model.summary2().tables[1])
 
-# Correctly invoke the league-bias analysis:
 analyze_league_bias('vw_midfielder_perf_league_bias', 'Midfielder')
 analyze_league_bias('vw_forward_perf_league_bias',   'Forward')
 analyze_league_bias('vw_defender_perf_league_bias',  'Defender')
@@ -193,7 +185,6 @@ analyze_league_bias('vw_defender_perf_league_bias',  'Defender')
 #Fourth analysis
 
 def evolution_analysis(view, role_label, conn, out_folder="analysis"):
-    #Generates evolution analysis plots and regression for all players or filtered by role.
     # Load data
     df = pd.read_sql(f"SELECT * FROM FOOTBALL.{view}", conn)
     
@@ -207,7 +198,7 @@ def evolution_analysis(view, role_label, conn, out_folder="analysis"):
     seasons = sorted(df['season_label'].unique(), key=int)
     df = df.sort_values('season_year')
     
-    # A) Boxplot: distribution by season
+    # Boxplot: distribution by season
     plt.figure(figsize=(10,5))
     sns.boxplot(data=df, x='season_label', y='market_value_m', showfliers=False)
     plt.xticks(rotation=45)
@@ -217,7 +208,7 @@ def evolution_analysis(view, role_label, conn, out_folder="analysis"):
     plt.savefig(f"{out_folder}/{role_label.lower().replace(' ', '_')}_distribution.png")
     plt.close()
 
-    # B) Line plot: average trend by season
+    # Line plot: average trend by season
     avg = (
         df
         .groupby('season_label')['market_value_m']
@@ -234,7 +225,7 @@ def evolution_analysis(view, role_label, conn, out_folder="analysis"):
     plt.savefig(f"{out_folder}/{role_label.lower().replace(' ', '_')}_avg_trend.png")
     plt.close()
 
-    # C) Regression: quantify season effects
+    # Regression: quantify season effects
     model = smf.ols("market_value_m ~ C(season_label)", data=df).fit()
     print(f"\n--- {role_label} Season Effects Regression ---")
     print(model.summary())
@@ -246,61 +237,6 @@ for role in ['Midfielder', 'Forward', 'Defender']:
 
 
 #Fifth analysis
-def residual_analysis(view, metrics, role_label, engine, top_n=10, out_folder="analysis"):
-    # 1. Load data
-    df = pd.read_sql(f"SELECT * FROM FOOTBALL.{view}", engine) \
-           .dropna(subset=metrics + ['market_value_m'])
-    
-    # 2. Fit multivariate OLS
-    X = sm.add_constant(df[metrics])
-    model = sm.OLS(df['market_value_m'], X).fit()
-    df['predicted'] = model.predict(X)
-    df['residual']  = df['market_value_m'] - df['predicted']
-    
-    # 3. Identify extremes
-    over  = df.nlargest(top_n, 'residual')[['player_name','season_text','residual']]
-    under = df.nsmallest(top_n, 'residual')[['player_name','season_text','residual']]
-    over['type'], under['type'] = 'Over-valued', 'Under-valued'
-    combined = pd.concat([under, over])
-    combined['label'] = combined['player_name'] + " (" + combined['season_text'] + ")"
-    combined = combined.set_index('label').sort_values('residual')
-    
-    # 4A. Scatter: Predicted vs Actual
-    plt.figure(figsize=(6,6))
-    plt.scatter(df['predicted'], df['market_value_m'], alpha=0.5)
-    mn, mx = df['predicted'].min(), df['predicted'].max()
-    plt.plot([mn, mx], [mn, mx], 'r--')
-    plt.xlabel("Predicted (M€)")
-    plt.ylabel("Actual (M€)")
-    plt.title(f"{role_label}: Predicted vs Actual")
-    plt.tight_layout()
-    plt.savefig(f"{out_folder}/{role_label.lower()}_pred_vs_actual.png")
-    plt.close()
-    
-    # 4B. Bar chart: Over/Under-Valued
-    plt.figure(figsize=(8,6))
-    colors = combined['type'].map({'Over-valued': 'steelblue', 'Under-valued': 'salmon'})
-    combined['residual'].plot(kind='barh', color=colors)
-    plt.axvline(0, color='black', linewidth=0.8)
-    plt.xlabel("Residual (Actual – Predicted, M€)")
-    plt.title(f"{role_label}: Top {top_n} Over/Under-valued")
-    plt.tight_layout()
-    plt.savefig(f"{out_folder}/{role_label.lower()}_residuals_bar.png")
-    plt.close()
-
-# Run for each role
-residual_analysis('vw_midfielder_multivar',
-                  ['assists_per_90','progressive_passes_per90','pass_accuracy','sca_per90','tackles_per90'],
-                  'Midfielder',engine)
-residual_analysis('vw_forward_multivar',
-                  ['goals_per_90','assists_per_90','npxg_per90','conv_rate','sca_per90'],
-                  'Forward', engine)
-residual_analysis('vw_defender_multivar',
-                  ['tackles_per90','interceptions_per90','clearances_per90','blocks_per90','pass_accuracy'],
-                  'Defender', engine)
-                  
-
-#Sixth analysis
 def role_intercept_comparison(views_and_metrics, engine, out_folder="analysis"):
     results = []
 
@@ -315,7 +251,7 @@ def role_intercept_comparison(views_and_metrics, engine, out_folder="analysis"):
 
         # If no data, skip
         if df.shape[0] < len(metrics) + 1:
-            print(f"⚠️ Skipping {role_label}: not enough data after cleaning ({df.shape[0]} rows).")
+            print(f" Skipping {role_label}: not enough data after cleaning ({df.shape[0]} rows).")
             continue
 
         # Prepare X & y
@@ -338,7 +274,7 @@ def role_intercept_comparison(views_and_metrics, engine, out_folder="analysis"):
 
     # If no results, abort
     if not results:
-        print("❌ No valid role models to display.")
+        print(" No valid role models to display.")
         return None
 
     # Build results DataFrame
@@ -364,7 +300,6 @@ def role_intercept_comparison(views_and_metrics, engine, out_folder="analysis"):
 
     return res_df
 
-# 2. Define view-to-metrics mapping
 views_and_metrics = {
     'Forward': (
         'vw_forward_position_model',
@@ -380,6 +315,4 @@ views_and_metrics = {
     )
 }
 
-# 3. Execute analysis
 res_df = role_intercept_comparison(views_and_metrics, engine)
-"""
