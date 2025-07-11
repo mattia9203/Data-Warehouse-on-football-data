@@ -8,7 +8,7 @@ players = pd.read_csv("data/dataset_2/players.csv")
 clubs = pd.read_csv("data/dataset_2/clubs.csv")
 competitions = pd.read_csv("data/dataset_2/competitions.csv")
 player_valuations = pd.read_csv("data/dataset_2/player_valuations.csv")
-"""
+
 # Merge the player_valuations dataset with player names, clubs, and competitions
 # Merge player names (player_id -> full_name)
 player_valuations = pd.merge(player_valuations, players[['player_id', 'first_name', 'last_name']], on='player_id', how='left')
@@ -104,10 +104,10 @@ manual_mapping_clubs = {
 }
 # Function to clean up club names by removing common terms
 def clean_club_name(name):
-    # Remove common terms (case-insensitive)
+    # Remove common terms
     name = re.sub(r'\b(?:' + '|'.join(common_terms) + r')\b', '', name, flags=re.IGNORECASE)
     # Remove any extra spaces that may appear after term removal
-    name = ' '.join(name.split())  # This removes extra spaces
+    name = ' '.join(name.split()) 
     return name
 
 # Clean club names in both datasets
@@ -123,7 +123,7 @@ def manual_mapping_check(club_name):
 # Function to perform fuzzy matching on club names
 def fuzzy_match_club(name, choices):
     match = process.extractOne(name, choices)
-    if match and match[1] > 85:  # Match score threshold (adjust if needed)
+    if match and match[1] > 85:  # Match score threshold 
         return match[0]
     return name  # If no good match, return original name
 
@@ -165,7 +165,6 @@ player_valuations.drop(columns=['date'], inplace=True)
 # Save the updated dataset
 updated_player_valuations_path = "data/updated_player_valuations_with_year.csv"
 #player_valuations.to_csv(updated_player_valuations_path, index=False)
-# ---------- paths ----------
 DATA_DIR   = "data"
 VAL_FILE   = os.path.join(DATA_DIR, "updated_player_valuations_with_year.csv")
 DATA_DIR   = "data/dataset_1"
@@ -178,7 +177,7 @@ STAT_FILES = [  # all season‑stat csvs               ↓ add/remove as needed
 STAT_FILES = [os.path.join(DATA_DIR, f) for f in STAT_FILES]
 # --------------------------------------------------------------------------
 
-# 1) build a ***single lookup table***  (player, year)  -> squad
+# 1) build a single lookup table (player, year)  -> squad
 pairs = []                       # collect mini‑tables, then concat once
 for path in STAT_FILES:
     df = pd.read_csv(path, usecols=["player", "season", "squad"])
@@ -196,12 +195,10 @@ valu = valu.merge(lookup, on=["player_name", "year"], how="left")
 # 3) fill gaps with CURRENT club_name if seasonal club missing
 valu["club_in_year"] = valu["club_in_year"].fillna(valu["club_name"])
 
-# 4) report & save
 filled = valu["club_in_year"].notna().sum()
-print(f"club_in_year filled for {filled} of {len(valu)} rows (including fall‑back to current club)")
-valu.to_csv(os.path.join(DATA_DIR, "valuations_with_season_club.csv"), index=False)"""
-""""
-# ─── paths ──────────────────────────────────────────────────────────
+print(f"club_in_year filled for {filled} of {len(valu)}")
+valu.to_csv(os.path.join(DATA_DIR, "valuations_with_season_club.csv"), index=False)
+
 DATA1_DIR = "data/dataset_1"
 DATA2_DIR = "data/dataset_2"
 dataset1_files = [
@@ -213,7 +210,6 @@ dataset1_files = [
 
 players_path = os.path.join(DATA2_DIR, "players.csv")
 
-# ─── load players reference ─────────────────────────────────────────
 players_df = pd.read_csv(players_path)
 
 # Combine first and last names into player_name
@@ -227,18 +223,17 @@ players_df['date_of_birth'] = pd.to_datetime(
 )
 players_df['year_of_birth'] = players_df['date_of_birth'].dt.year
 
-# 2) Build lookup table indexed by player_name
+# Build lookup table indexed by player_name
 players_ref = players_df.set_index('player_name')[[
     'country_of_citizenship',   # for nation
     'country_of_birth',          # for country
     'year_of_birth'              # for born
 ]]
 
-# 3) Process each stats file
+# Process each stats file
 for fname in dataset1_files:
     in_path = os.path.join(DATA1_DIR, fname)
     if not os.path.exists(in_path):
-        print(f"⚠️  {fname} not found under {DATA1_DIR}, skipping.")
         continue
 
     df = pd.read_csv(in_path)
@@ -277,19 +272,10 @@ for fname in dataset1_files:
     # Save cleaned output
     out_path = os.path.join(DATA1_DIR, f"cleaned_{fname}")
     df.to_csv(out_path, index=False)
-    print(f"✅ Processed {fname} → saved cleaned_{fname}")
-
-dataset1_files = [
-    "cleaned_player_defense.csv", "cleaned_player_gca.csv", "cleaned_player_misc.csv",
-    "cleaned_player_shooting.csv", "cleaned_player_possession.csv",
-    "cleaned_player_passing_type.csv", "cleaned_player_passing.csv",
-    "cleaned_player_standard_stats.csv"
-]
 
 for fname in dataset1_files:
     path = os.path.join(DATA1_DIR, fname)
     if not os.path.exists(path):
-        print(f"⚠️  {fname} not found, skipping.")
         continue
 
     df = pd.read_csv(path)
@@ -306,10 +292,9 @@ for fname in dataset1_files:
     
     # save back
     df.to_csv(path, index=False)
-    print(f"✅ {fname}: filled {mask.sum()} age values")
+    print(f"{fname}: filled {mask.sum()} age values")
     
-    # Phase A: build a country → continent dictionary from existing data
-# ═══════════════════════════════════════════════════════════════════════════
+#build a country → continent dictionary from existing data
 country_to_continent = {}
 for fname in dataset1_files:
     path = os.path.join(DATA1_DIR, fname)
@@ -321,9 +306,9 @@ for fname in dataset1_files:
     )
 print(f"Lookup built: {len(country_to_continent)} country→continent pairs")
 
-# ═════════════════════════════════════════════════════════════════════
-# Phase B – fill country & continent; drop rows missing born
-# ═════════════════════════════════════════════════════════════════════
+
+#fill country & continent; drop rows missing born
+
 players = pd.read_csv(players_path)
 players['player_name'] = (players['first_name'].fillna('') + ' ' +
                           players['last_name'].fillna('')).str.strip()
@@ -332,7 +317,6 @@ lookup_players = players.set_index('player_name')[['country_of_birth']]
 for fname in dataset1_files:
     in_path = os.path.join(DATA1_DIR, fname)
     if not os.path.exists(in_path):
-        print(f"⚠️  {fname} not found, skipping")
         continue
 
     df = pd.read_csv(in_path)
@@ -341,12 +325,12 @@ for fname in dataset1_files:
     df = df.merge(lookup_players, how='left',
                   left_on='player', right_index=True)
 
-    # -------- fill COUNTRY -------------------------------------------
+    #  fill COUNTRY 
     before_country_na = df['country'].isna().sum()
     df['country'] = df['country'].fillna(df['country_of_birth'])
     country_filled = before_country_na - df['country'].isna().sum()
 
-    # -------- fill CONTINENT -----------------------------------------
+    #  fill CONTINENT 
     mask_continent = df['continent'].isna() & df['country'].notna()
     before_continent_na = df['continent'].isna().sum()
     df.loc[mask_continent, 'continent'] = df.loc[mask_continent, 'country'] \
@@ -356,7 +340,7 @@ for fname in dataset1_files:
     # Drop helper column
     df.drop(columns=['country_of_birth'], inplace=True)
 
-    # -------- drop rows still missing born ---------------------------
+    #  drop rows still missing born 
     before_rows = len(df)
     df = df.dropna(subset=['born'])
     dropped_rows = before_rows - len(df)
@@ -365,9 +349,6 @@ for fname in dataset1_files:
     out_path = os.path.join(DATA1_DIR, f"{fname}")
     df.to_csv(out_path, index=False)
 
-    # Report
-    print(f"✅ {fname}: +{country_filled} country, +{continent_filled} continent "
-          f"filled; dropped {dropped_rows} rows  → saved cleaned2_{fname}")
 
 
 
@@ -377,13 +358,12 @@ DATA_DIR = "data"
 TOP_N  = 8000
 OUT_DIR = "data/global_selected_8000"
 os.makedirs(OUT_DIR, exist_ok=True)
-# --------------------------------------------------------------------
 
-# 1 ── read valuations (all columns) & build a MultiIndex set
+# 1 read valuations (all columns) & build a MultiIndex set
 val = pd.read_csv(os.path.join(DATA_DIR, VAL_FILE))
 val_pairs = set(zip(val['player_name'], val['year']))
 
-# 2 ── master table of unique (player, season) pairs
+# 2 master table of unique (player, season) pairs in order to compute the total number of nulls
 master = pd.Series(0, dtype=int,
                    index=pd.MultiIndex(levels=[[], []],
                                        codes=[[], []],
@@ -392,14 +372,14 @@ master = pd.Series(0, dtype=int,
 for fname in dataset1_files:
     df = pd.read_csv(os.path.join(DATA1_DIR, fname))
 
-    # keep rows present in valuations
+    # keep only the rows present in valuations
     mask_val = [(p, s) in val_pairs for p, s in zip(df['player'], df['season'])]
     df = df.loc[mask_val]
 
     # ensure country & continent present
     df = df[df['country'].notna() & df['continent'].notna()]
 
-    # compute per-row nulls (exclude keys)
+    # compute per-row nulls 
     nulls = (df.drop(columns=['player', 'season'])
                .isna()
                .sum(axis=1))
@@ -415,7 +395,7 @@ for fname in dataset1_files:
 
 print(f"Unique pairs considered: {len(master):,}")
 
-# 3 ── choose the best TOP_N unique pairs
+# 3 choose the best TOP_N unique pairs
 top_pairs = (master.sort_values()
                     .head(TOP_N)
                     .index            # MultiIndex
@@ -423,28 +403,25 @@ top_pairs = (master.sort_values()
 pair_set = set(top_pairs)
 print(f"Selected exactly {len(pair_set)} unique pairs with minimal nulls")
 
-# 4 ── export filtered stats files (deduplicated)
+# 4 export filtered stats files (deduplicated)
 for fname in dataset1_files:
     df = pd.read_csv(os.path.join(DATA1_DIR, fname))
     df = df[df.set_index(['player', 'season']).index.isin(pair_set)]
-    # drop duplicates per pair, keep first
+    # drop duplicates per pair
     df = df.drop_duplicates(subset=['player', 'season'], keep='first')
     out_path = os.path.join(OUT_DIR, f"selected_{fname}")
     df.to_csv(out_path, index=False)
-    print(f"  ↳ {fname}: {len(df):,} rows written")
+    print(f"{fname}: {len(df):,} rows written")
 
-# 5 ── export filtered valuations file (deduplicated)
+# 5 export filtered valuations file (deduplicated)
 val_sel = val[val.set_index(['player_name', 'year']).index.isin(pair_set)]
 val_sel = val_sel.drop_duplicates(subset=['player_name', 'year'], keep='first')
 val_sel.to_csv(os.path.join(OUT_DIR, "selected_valuations.csv"), index=False)
 print(f"Valuations rows written: {len(val_sel):,}")
 
-print("\n✅ All files in", OUT_DIR,
-      "contain the same 8 000 unique player-season pairs with minimal missing data.")
-"""
-"""
-DATA_DIR   = "data/global_selected_8000"      # folder with selected_* CSVs
-PLAYERS_CSV = "data/dataset_2/players.csv"              # reference file
+
+DATA_DIR   = "data/global_selected_8000"      
+PLAYERS_CSV = "data/dataset_2/players.csv"              
 OUT_DIR   = "data/global_selected_8000"
 os.makedirs(OUT_DIR, exist_ok=True)
 STAT_FILES = [f for f in os.listdir(DATA_DIR)
@@ -460,13 +437,13 @@ DROP_COLS = [
 ]
 # --------------------------------------------------------------------
 
-# 1 ── build unified player_name in players.csv
+# 1 build unified player_name in players.csv
 players = pd.read_csv(PLAYERS_CSV)
 players["player_name"] = (
     players["first_name"].fillna("") + " " + players["last_name"].fillna("")
 ).str.strip()
 
-# 2 ── collect every player in any selected file
+# 2 collect every player in any selected file
 selected_players = set()
 
 val_df = pd.read_csv(os.path.join(DATA_DIR, VAL_FILE))
@@ -476,14 +453,12 @@ for f in STAT_FILES:
     tmp = pd.read_csv(os.path.join(DATA_DIR, f), usecols=["player"])
     selected_players.update(tmp["player"].unique())
 
-# 3 ── build filtered lookup and drop unnecessary cols
+# 3 build filtered lookup and drop unnecessary cols
 player_lookup = (
     players[players["player_name"].isin(selected_players)]
       .drop(columns=[c for c in DROP_COLS if c in players.columns])
       .loc[:, ["player_id", "player_name"]]
 )
-#player_lookup.to_csv(os.path.join(OUT_DIR, "player_lookup.csv"), index=False)
-# --- Save a full reduced players table (OPTIONAL) -------------------
 players_filtered = players[players["player_name"].isin(selected_players)].copy()
 
 # drop the unwanted columns
@@ -502,11 +477,11 @@ players_filtered.to_csv(os.path.join(OUT_DIR, "selected_players.csv"),
                         index=False)
 print("players_filtered.csv written with", len(players_filtered), "rows")
 
-# 4 ── mapping dict
+# 4 mapping dictionary
 id_map = player_lookup.set_index("player_name")["player_id"].to_dict()
 
 def move_player_id_first(df: pd.DataFrame) -> pd.DataFrame:
-    """ """Return df with player_id as first column.""" """
+    """Return df with player_id as first column.""" 
     cols = df.columns.tolist()
     if "player_id" in cols:
         cols.insert(0, cols.pop(cols.index("player_id")))
@@ -522,17 +497,13 @@ for f in STAT_FILES:
     df = move_player_id_first(df)
     df.to_csv(os.path.join(OUT_DIR, f), index=False)
 
-# 6 ── valuation file
 val_df["player_id"] = val_df["player_name"].map(id_map)
 val_df = move_player_id_first(val_df)
 val_df.to_csv(os.path.join(OUT_DIR, VAL_FILE), index=False)
 
-print("✅ All updated files saved in", OUT_DIR,
-      "with player_id as the first column.")"""
 
 VAL_PATH = "data/global_selected_8000/selected_valuations.csv"
 
-# 1) read the file
 val_df = pd.read_csv(VAL_PATH)
 
 # 2) rename columns
@@ -542,11 +513,10 @@ val_df = val_df.rename(columns={
     "club_in_year": "club_in_season"    # club_in_year→ club_in_season
 })
 
-# 3) put player_id first again (optional, if you want to keep that rule)
+# 3) put player_id first again 
 cols = val_df.columns.tolist()
 if "player_id" in cols:
     cols.insert(0, cols.pop(cols.index("player_id")))
     val_df = val_df[cols]
 
-# 4) save back (overwrite or new name)
 val_df.to_csv(VAL_PATH, index=False)
