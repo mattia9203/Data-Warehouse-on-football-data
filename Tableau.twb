@@ -1,0 +1,2956 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20252.25.0514.2217                               -->
+<workbook original-version='18.1' source-build='2025.2.0 (20252.25.0514.2217)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AnimationOnByDefault />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelExtractV2 />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SheetIdentifierTracking />
+    <_.fcp.VConnDownstreamExtractsWithWarnings.true...VConnDownstreamExtractsWithWarnings />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='fact_player_statistics+' inline='true' name='federated.0jny3f20xszvpg0zzaphb0zsin6k' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='fact_player_statistics' name='textscan.1i1vhn60yrescl11j72mc0tz1rho'>
+            <connection class='textscan' directory='C:/Users/matti/Desktop/Data-Warehouse-on-football-data/data/postgre' filename='fact_player_statistics.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation type='collection'>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='fact_player_statistics.csv' table='[fact_player_statistics#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='F1' ordinal='0' />
+              <column datatype='integer' name='fact_id' ordinal='1' />
+              <column datatype='integer' name='player_id' ordinal='2' />
+              <column datatype='integer' name='club_id' ordinal='3' />
+              <column datatype='integer' name='season_id' ordinal='4' />
+              <column datatype='integer' name='position_id' ordinal='5' />
+              <column datatype='integer' name='market_id' ordinal='6' />
+              <column datatype='integer' name='transfer_id' ordinal='7' />
+              <column datatype='integer' name='gamesplayed_id' ordinal='8' />
+              <column datatype='integer' name='age_id' ordinal='9' />
+              <column datatype='integer' name='Goals' ordinal='10' />
+              <column datatype='integer' name='Assists' ordinal='11' />
+              <column datatype='string' name='xG' ordinal='12' />
+              <column datatype='integer' name='Progressive_Passes' ordinal='13' />
+              <column datatype='integer' name='Progressive_Carries' ordinal='14' />
+              <column datatype='integer' name='Passes_Completed' ordinal='15' />
+              <column datatype='integer' name='Key_Passes' ordinal='16' />
+              <column datatype='integer' name='Tackles' ordinal='17' />
+              <column datatype='integer' name='Interceptions' ordinal='18' />
+              <column datatype='integer' name='Clearances' ordinal='19' />
+              <column datatype='integer' name='Blocks' ordinal='20' />
+              <column datatype='integer' name='Red_Cards' ordinal='21' />
+              <column datatype='integer' name='Dribblers_Challenged' ordinal='22' />
+              <column datatype='string' name='Goals_per90' ordinal='23' />
+              <column datatype='string' name='Assists_per90' ordinal='24' />
+              <column datatype='string' name='xG_per90' ordinal='25' />
+              <column datatype='integer' name='Dribblers_Tackled' ordinal='26' />
+              <column datatype='integer' name='Goals_Assists' ordinal='27' />
+              <column datatype='integer' name='Errors' ordinal='28' />
+              <column datatype='integer' name='Aerials_Won' ordinal='29' />
+              <column datatype='integer' name='Through_Balls' ordinal='30' />
+              <column datatype='integer' name='Carries_into_Final_Third' ordinal='31' />
+              <column datatype='integer' name='Shot_Creating_Actions' ordinal='32' />
+              <column datatype='string' name='Non_Penalty_xG' ordinal='33' />
+              <column datatype='string' name='Shots_per90' ordinal='34' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_age.csv' table='[dim_age#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='age_id' ordinal='0' />
+              <column datatype='integer' name='Age' ordinal='1' />
+              <column datatype='string' name='Age_Range' ordinal='2' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_club.csv' table='[dim_club#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='club_id' ordinal='0' />
+              <column datatype='string' name='Club' ordinal='1' />
+              <column datatype='string' name='Competition' ordinal='2' />
+              <column datatype='string' name='Country' ordinal='3' />
+              <column datatype='string' name='Continent' ordinal='4' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_games_played.csv' table='[dim_games_played#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='gamesplayed_id' ordinal='0' />
+              <column datatype='integer' name='Played' ordinal='1' />
+              <column datatype='integer' name='Wins' ordinal='2' />
+              <column datatype='integer' name='Draws' ordinal='3' />
+              <column datatype='integer' name='Loses' ordinal='4' />
+              <column datatype='integer' name='Wins_for_1' ordinal='5' />
+              <column datatype='integer' name='Wins_for_2plus' ordinal='6' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_market.csv' table='[dim_market#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='market_id' ordinal='0' />
+              <column datatype='integer' name='Market_Value' ordinal='1' />
+              <column datatype='string' name='Value_Tier' ordinal='2' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_player.csv' table='[dim_player#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='player_id' ordinal='0' />
+              <column datatype='string' name='Name' ordinal='1' />
+              <column datatype='string' name='Height' ordinal='2' />
+              <column datatype='string' name='Foot' ordinal='3' />
+              <column datatype='string' name='Country_of_Birth' ordinal='4' />
+              <column datatype='string' name='City_of_Birth' ordinal='5' />
+              <column datatype='string' name='Highest_market_value' ordinal='6' />
+              <column datatype='string' name='Highest_market_value_tier' ordinal='7' />
+              <column datatype='string' name='Continent_of_Birth' ordinal='8' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_position.csv' table='[dim_position#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='position_id' ordinal='0' />
+              <column datatype='string' name='Position' ordinal='1' />
+              <column datatype='string' name='Role' ordinal='2' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_season.csv' table='[dim_season#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='season_id' ordinal='0' />
+              <column datatype='integer' name='Season' ordinal='1' />
+              <column datatype='string' name='Decade' ordinal='2' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_transfer.csv' table='[dim_transfer#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='it_IT'>
+              <column datatype='integer' name='transfer_id' ordinal='0' />
+              <column datatype='string' name='Fee' ordinal='1' />
+              <column datatype='string' name='Price' ordinal='2' />
+              <column datatype='string' name='Trend' ordinal='3' />
+            </columns>
+          </relation>
+        </relation>
+        <cols>
+          <map key='[Aerials_Won]' value='[fact_player_statistics.csv].[Aerials_Won]' />
+          <map key='[Age]' value='[dim_age.csv].[Age]' />
+          <map key='[Age_Range]' value='[dim_age.csv].[Age_Range]' />
+          <map key='[Assists]' value='[fact_player_statistics.csv].[Assists]' />
+          <map key='[Assists_per90]' value='[fact_player_statistics.csv].[Assists_per90]' />
+          <map key='[Blocks]' value='[fact_player_statistics.csv].[Blocks]' />
+          <map key='[Carries_into_Final_Third]' value='[fact_player_statistics.csv].[Carries_into_Final_Third]' />
+          <map key='[City_of_Birth]' value='[dim_player.csv].[City_of_Birth]' />
+          <map key='[Clearances]' value='[fact_player_statistics.csv].[Clearances]' />
+          <map key='[Club]' value='[dim_club.csv].[Club]' />
+          <map key='[Competition]' value='[dim_club.csv].[Competition]' />
+          <map key='[Continent]' value='[dim_club.csv].[Continent]' />
+          <map key='[Continent_of_Birth]' value='[dim_player.csv].[Continent_of_Birth]' />
+          <map key='[Country]' value='[dim_club.csv].[Country]' />
+          <map key='[Country_of_Birth]' value='[dim_player.csv].[Country_of_Birth]' />
+          <map key='[Decade]' value='[dim_season.csv].[Decade]' />
+          <map key='[Draws]' value='[dim_games_played.csv].[Draws]' />
+          <map key='[Dribblers_Challenged]' value='[fact_player_statistics.csv].[Dribblers_Challenged]' />
+          <map key='[Dribblers_Tackled]' value='[fact_player_statistics.csv].[Dribblers_Tackled]' />
+          <map key='[Errors]' value='[fact_player_statistics.csv].[Errors]' />
+          <map key='[F1]' value='[fact_player_statistics.csv].[F1]' />
+          <map key='[Fee]' value='[dim_transfer.csv].[Fee]' />
+          <map key='[Foot]' value='[dim_player.csv].[Foot]' />
+          <map key='[Goals]' value='[fact_player_statistics.csv].[Goals]' />
+          <map key='[Goals_Assists]' value='[fact_player_statistics.csv].[Goals_Assists]' />
+          <map key='[Goals_per90]' value='[fact_player_statistics.csv].[Goals_per90]' />
+          <map key='[Height]' value='[dim_player.csv].[Height]' />
+          <map key='[Highest_market_value]' value='[dim_player.csv].[Highest_market_value]' />
+          <map key='[Highest_market_value_tier]' value='[dim_player.csv].[Highest_market_value_tier]' />
+          <map key='[Interceptions]' value='[fact_player_statistics.csv].[Interceptions]' />
+          <map key='[Key_Passes]' value='[fact_player_statistics.csv].[Key_Passes]' />
+          <map key='[Loses]' value='[dim_games_played.csv].[Loses]' />
+          <map key='[Market_Value]' value='[dim_market.csv].[Market_Value]' />
+          <map key='[Name]' value='[dim_player.csv].[Name]' />
+          <map key='[Non_Penalty_xG]' value='[fact_player_statistics.csv].[Non_Penalty_xG]' />
+          <map key='[Passes_Completed]' value='[fact_player_statistics.csv].[Passes_Completed]' />
+          <map key='[Played]' value='[dim_games_played.csv].[Played]' />
+          <map key='[Position]' value='[dim_position.csv].[Position]' />
+          <map key='[Price]' value='[dim_transfer.csv].[Price]' />
+          <map key='[Progressive_Carries]' value='[fact_player_statistics.csv].[Progressive_Carries]' />
+          <map key='[Progressive_Passes]' value='[fact_player_statistics.csv].[Progressive_Passes]' />
+          <map key='[Red_Cards]' value='[fact_player_statistics.csv].[Red_Cards]' />
+          <map key='[Role]' value='[dim_position.csv].[Role]' />
+          <map key='[Season]' value='[dim_season.csv].[Season]' />
+          <map key='[Shot_Creating_Actions]' value='[fact_player_statistics.csv].[Shot_Creating_Actions]' />
+          <map key='[Shots_per90]' value='[fact_player_statistics.csv].[Shots_per90]' />
+          <map key='[Tackles]' value='[fact_player_statistics.csv].[Tackles]' />
+          <map key='[Through_Balls]' value='[fact_player_statistics.csv].[Through_Balls]' />
+          <map key='[Trend]' value='[dim_transfer.csv].[Trend]' />
+          <map key='[Value_Tier]' value='[dim_market.csv].[Value_Tier]' />
+          <map key='[Wins]' value='[dim_games_played.csv].[Wins]' />
+          <map key='[Wins_for_1]' value='[dim_games_played.csv].[Wins_for_1]' />
+          <map key='[Wins_for_2plus]' value='[dim_games_played.csv].[Wins_for_2plus]' />
+          <map key='[age_id (dim_age.csv)]' value='[dim_age.csv].[age_id]' />
+          <map key='[age_id]' value='[fact_player_statistics.csv].[age_id]' />
+          <map key='[club_id (dim_club.csv)]' value='[dim_club.csv].[club_id]' />
+          <map key='[club_id]' value='[fact_player_statistics.csv].[club_id]' />
+          <map key='[fact_id]' value='[fact_player_statistics.csv].[fact_id]' />
+          <map key='[gamesplayed_id (dim_games_played.csv)]' value='[dim_games_played.csv].[gamesplayed_id]' />
+          <map key='[gamesplayed_id]' value='[fact_player_statistics.csv].[gamesplayed_id]' />
+          <map key='[market_id (dim_market.csv)]' value='[dim_market.csv].[market_id]' />
+          <map key='[market_id]' value='[fact_player_statistics.csv].[market_id]' />
+          <map key='[player_id (dim_player.csv)]' value='[dim_player.csv].[player_id]' />
+          <map key='[player_id]' value='[fact_player_statistics.csv].[player_id]' />
+          <map key='[position_id (dim_position.csv)]' value='[dim_position.csv].[position_id]' />
+          <map key='[position_id]' value='[fact_player_statistics.csv].[position_id]' />
+          <map key='[season_id (dim_season.csv)]' value='[dim_season.csv].[season_id]' />
+          <map key='[season_id]' value='[fact_player_statistics.csv].[season_id]' />
+          <map key='[transfer_id (dim_transfer.csv)]' value='[dim_transfer.csv].[transfer_id]' />
+          <map key='[transfer_id]' value='[fact_player_statistics.csv].[transfer_id]' />
+          <map key='[xG]' value='[fact_player_statistics.csv].[xG]' />
+          <map key='[xG_per90]' value='[fact_player_statistics.csv].[xG_per90]' />
+        </cols>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_age.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_club.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_market.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_position.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_season.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[dim_transfer.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;it&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;it_IT&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>F1</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[F1]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>F1</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>fact_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[fact_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>fact_id</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>player_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[player_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>player_id</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>club_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[club_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>club_id</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>season_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[season_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>season_id</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>position_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[position_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>position_id</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>market_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[market_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>market_id</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>transfer_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[transfer_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>transfer_id</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>gamesplayed_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[gamesplayed_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>gamesplayed_id</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>age_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[age_id]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>age_id</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Goals</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Goals]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Goals</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Assists</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Assists]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Assists</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>xG</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[xG]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>xG</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Progressive_Passes</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Progressive_Passes]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Progressive_Passes</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Progressive_Carries</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Progressive_Carries]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Progressive_Carries</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Passes_Completed</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Passes_Completed]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Passes_Completed</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Key_Passes</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Key_Passes]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Key_Passes</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Tackles</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Tackles]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Tackles</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Interceptions</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Interceptions]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Interceptions</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Clearances</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Clearances]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Clearances</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Blocks</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Blocks]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Blocks</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Red_Cards</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Red_Cards]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Red_Cards</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Dribblers_Challenged</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Dribblers_Challenged]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Dribblers_Challenged</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Goals_per90</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Goals_per90]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Goals_per90</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Assists_per90</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Assists_per90]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Assists_per90</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>xG_per90</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[xG_per90]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>xG_per90</remote-alias>
+            <ordinal>25</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Dribblers_Tackled</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Dribblers_Tackled]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Dribblers_Tackled</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Goals_Assists</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Goals_Assists]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Goals_Assists</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Errors</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Errors]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Errors</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Aerials_Won</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Aerials_Won]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Aerials_Won</remote-alias>
+            <ordinal>29</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Through_Balls</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Through_Balls]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Through_Balls</remote-alias>
+            <ordinal>30</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Carries_into_Final_Third</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Carries_into_Final_Third]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Carries_into_Final_Third</remote-alias>
+            <ordinal>31</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Shot_Creating_Actions</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Shot_Creating_Actions]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Shot_Creating_Actions</remote-alias>
+            <ordinal>32</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Non_Penalty_xG</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Non_Penalty_xG]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Non_Penalty_xG</remote-alias>
+            <ordinal>33</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Shots_per90</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Shots_per90]</local-name>
+            <parent-name>[fact_player_statistics.csv]</parent-name>
+            <remote-alias>Shots_per90</remote-alias>
+            <ordinal>34</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>age_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[age_id (dim_age.csv)]</local-name>
+            <parent-name>[dim_age.csv]</parent-name>
+            <remote-alias>age_id</remote-alias>
+            <ordinal>35</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Age</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Age]</local-name>
+            <parent-name>[dim_age.csv]</parent-name>
+            <remote-alias>Age</remote-alias>
+            <ordinal>36</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Age_Range</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Age_Range]</local-name>
+            <parent-name>[dim_age.csv]</parent-name>
+            <remote-alias>Age_Range</remote-alias>
+            <ordinal>37</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>club_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[club_id (dim_club.csv)]</local-name>
+            <parent-name>[dim_club.csv]</parent-name>
+            <remote-alias>club_id</remote-alias>
+            <ordinal>38</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Club</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Club]</local-name>
+            <parent-name>[dim_club.csv]</parent-name>
+            <remote-alias>Club</remote-alias>
+            <ordinal>39</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Competition</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Competition]</local-name>
+            <parent-name>[dim_club.csv]</parent-name>
+            <remote-alias>Competition</remote-alias>
+            <ordinal>40</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Country</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Country]</local-name>
+            <parent-name>[dim_club.csv]</parent-name>
+            <remote-alias>Country</remote-alias>
+            <ordinal>41</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Continent</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Continent]</local-name>
+            <parent-name>[dim_club.csv]</parent-name>
+            <remote-alias>Continent</remote-alias>
+            <ordinal>42</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>gamesplayed_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[gamesplayed_id (dim_games_played.csv)]</local-name>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias>gamesplayed_id</remote-alias>
+            <ordinal>43</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Played</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Played]</local-name>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias>Played</remote-alias>
+            <ordinal>44</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Wins</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Wins]</local-name>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias>Wins</remote-alias>
+            <ordinal>45</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Draws</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Draws]</local-name>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias>Draws</remote-alias>
+            <ordinal>46</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Loses</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Loses]</local-name>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias>Loses</remote-alias>
+            <ordinal>47</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Wins_for_1</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Wins_for_1]</local-name>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias>Wins_for_1</remote-alias>
+            <ordinal>48</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Wins_for_2plus</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Wins_for_2plus]</local-name>
+            <parent-name>[dim_games_played.csv]</parent-name>
+            <remote-alias>Wins_for_2plus</remote-alias>
+            <ordinal>49</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>market_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[market_id (dim_market.csv)]</local-name>
+            <parent-name>[dim_market.csv]</parent-name>
+            <remote-alias>market_id</remote-alias>
+            <ordinal>50</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Market_Value</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Market_Value]</local-name>
+            <parent-name>[dim_market.csv]</parent-name>
+            <remote-alias>Market_Value</remote-alias>
+            <ordinal>51</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Value_Tier</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Value_Tier]</local-name>
+            <parent-name>[dim_market.csv]</parent-name>
+            <remote-alias>Value_Tier</remote-alias>
+            <ordinal>52</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>player_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[player_id (dim_player.csv)]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>player_id</remote-alias>
+            <ordinal>53</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Name</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Name]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>Name</remote-alias>
+            <ordinal>54</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Height</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Height]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>Height</remote-alias>
+            <ordinal>55</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Foot</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Foot]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>Foot</remote-alias>
+            <ordinal>56</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Country_of_Birth</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Country_of_Birth]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>Country_of_Birth</remote-alias>
+            <ordinal>57</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>City_of_Birth</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[City_of_Birth]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>City_of_Birth</remote-alias>
+            <ordinal>58</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Highest_market_value</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Highest_market_value]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>Highest_market_value</remote-alias>
+            <ordinal>59</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Highest_market_value_tier</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Highest_market_value_tier]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>Highest_market_value_tier</remote-alias>
+            <ordinal>60</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Continent_of_Birth</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Continent_of_Birth]</local-name>
+            <parent-name>[dim_player.csv]</parent-name>
+            <remote-alias>Continent_of_Birth</remote-alias>
+            <ordinal>61</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>position_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[position_id (dim_position.csv)]</local-name>
+            <parent-name>[dim_position.csv]</parent-name>
+            <remote-alias>position_id</remote-alias>
+            <ordinal>62</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Position</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Position]</local-name>
+            <parent-name>[dim_position.csv]</parent-name>
+            <remote-alias>Position</remote-alias>
+            <ordinal>63</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Role</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Role]</local-name>
+            <parent-name>[dim_position.csv]</parent-name>
+            <remote-alias>Role</remote-alias>
+            <ordinal>64</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>season_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[season_id (dim_season.csv)]</local-name>
+            <parent-name>[dim_season.csv]</parent-name>
+            <remote-alias>season_id</remote-alias>
+            <ordinal>65</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Season</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Season]</local-name>
+            <parent-name>[dim_season.csv]</parent-name>
+            <remote-alias>Season</remote-alias>
+            <ordinal>66</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Decade</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Decade]</local-name>
+            <parent-name>[dim_season.csv]</parent-name>
+            <remote-alias>Decade</remote-alias>
+            <ordinal>67</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>transfer_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[transfer_id (dim_transfer.csv)]</local-name>
+            <parent-name>[dim_transfer.csv]</parent-name>
+            <remote-alias>transfer_id</remote-alias>
+            <ordinal>68</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Fee</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Fee]</local-name>
+            <parent-name>[dim_transfer.csv]</parent-name>
+            <remote-alias>Fee</remote-alias>
+            <ordinal>69</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Price</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Price]</local-name>
+            <parent-name>[dim_transfer.csv]</parent-name>
+            <remote-alias>Price</remote-alias>
+            <ordinal>70</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Trend</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Trend]</local-name>
+            <parent-name>[dim_transfer.csv]</parent-name>
+            <remote-alias>Trend</remote-alias>
+            <ordinal>71</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LIT_RIT' />
+            <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Aerials Won' datatype='integer' name='[Aerials_Won]' role='measure' type='quantitative' />
+      <column caption='Age Range' datatype='string' name='[Age_Range]' role='dimension' type='nominal' />
+      <column caption='Assists per90' datatype='string' name='[Assists_per90]' role='dimension' type='nominal' />
+      <column caption='Goals_per90' datatype='real' name='[Calculation_1501669001810317312]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='FLOAT(REPLACE([Goals_per90], &quot;,&quot;, &quot;.&quot;))' />
+      </column>
+      <column caption='xG_per90' datatype='real' name='[Calculation_1501669001810395137]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='FLOAT(REPLACE([xG_per90], &quot;,&quot;, &quot;.&quot;))' />
+      </column>
+      <column caption='Carries into Final Third' datatype='integer' name='[Carries_into_Final_Third]' role='measure' type='quantitative' />
+      <column caption='City of Birth' datatype='string' name='[City_of_Birth]' role='dimension' semantic-role='[City].[Name]' type='nominal' />
+      <column caption='Continent of Birth' datatype='string' name='[Continent_of_Birth]' role='dimension' type='nominal' />
+      <column datatype='string' name='[Country]' role='dimension' semantic-role='[Country].[ISO3166_2]' type='nominal' />
+      <column caption='Country of Birth' datatype='string' name='[Country_of_Birth]' role='dimension' semantic-role='[Country].[ISO3166_2]' type='nominal' />
+      <column caption='Dribblers Challenged' datatype='integer' name='[Dribblers_Challenged]' role='measure' type='quantitative' />
+      <column caption='Dribblers Tackled' datatype='integer' name='[Dribblers_Tackled]' role='measure' type='quantitative' />
+      <column caption='Goals Assists' datatype='integer' name='[Goals_Assists]' role='measure' type='quantitative' />
+      <column caption='Goals per90' datatype='string' name='[Goals_per90]' role='dimension' type='nominal' />
+      <column caption='Highest market value' datatype='string' name='[Highest_market_value]' role='dimension' type='nominal' />
+      <column caption='Highest market value tier' datatype='string' name='[Highest_market_value_tier]' role='dimension' type='nominal' />
+      <column caption='Key Passes' datatype='integer' name='[Key_Passes]' role='dimension' type='ordinal' />
+      <column caption='Market Value' datatype='integer' name='[Market_Value]' role='measure' type='quantitative' />
+      <column caption='Non Penalty xG' datatype='string' name='[Non_Penalty_xG]' role='dimension' type='nominal' />
+      <column caption='Passes Completed' datatype='integer' name='[Passes_Completed]' role='measure' type='quantitative' />
+      <column caption='Progressive Carries' datatype='integer' name='[Progressive_Carries]' role='measure' type='quantitative' />
+      <column caption='Progressive Passes' datatype='integer' name='[Progressive_Passes]' role='measure' type='quantitative' />
+      <column caption='Red Cards' datatype='integer' name='[Red_Cards]' role='measure' type='quantitative' />
+      <column aggregation='Sum' datatype='integer' name='[Season]' role='dimension' type='ordinal' />
+      <column caption='Shot Creating Actions' datatype='integer' name='[Shot_Creating_Actions]' role='measure' type='quantitative' />
+      <column caption='Shots per90' datatype='string' name='[Shots_per90]' role='dimension' type='nominal' />
+      <column caption='Through Balls' datatype='integer' name='[Through_Balls]' role='measure' type='quantitative' />
+      <column caption='Value Tier' datatype='string' name='[Value_Tier]' role='dimension' type='nominal' />
+      <column caption='Wins for 1' datatype='integer' name='[Wins_for_1]' role='measure' type='quantitative' />
+      <column caption='Wins for 2plus' datatype='integer' name='[Wins_for_2plus]' role='measure' type='quantitative' />
+      <column caption='dim_age.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]' role='measure' type='quantitative' />
+      <column caption='dim_club.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_club.csv_3325E6664E14483F86ED603F60D61684]' role='measure' type='quantitative' />
+      <column caption='dim_games_played.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]' role='measure' type='quantitative' />
+      <column caption='dim_market.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]' role='measure' type='quantitative' />
+      <column caption='dim_player.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]' role='measure' type='quantitative' />
+      <column caption='dim_position.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]' role='measure' type='quantitative' />
+      <column caption='dim_season.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]' role='measure' type='quantitative' />
+      <column caption='dim_transfer.csv' datatype='table' name='[__tableau_internal_object_id__].[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]' role='measure' type='quantitative' />
+      <column caption='fact_player_statistics.csv' datatype='table' name='[__tableau_internal_object_id__].[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]' role='measure' type='quantitative' />
+      <column caption='Age Id (Dim Age.Csv)' datatype='integer' name='[age_id (dim_age.csv)]' role='dimension' type='ordinal' />
+      <column caption='Age Id' datatype='integer' name='[age_id]' role='dimension' type='ordinal' />
+      <column caption='Club Id (Dim Club.Csv)' datatype='integer' name='[club_id (dim_club.csv)]' role='dimension' type='ordinal' />
+      <column caption='Club Id' datatype='integer' name='[club_id]' role='dimension' type='ordinal' />
+      <column caption='Fact Id' datatype='integer' name='[fact_id]' role='dimension' type='ordinal' />
+      <column caption='Gamesplayed Id (Dim Games Played.Csv)' datatype='integer' name='[gamesplayed_id (dim_games_played.csv)]' role='dimension' type='ordinal' />
+      <column caption='Gamesplayed Id' datatype='integer' name='[gamesplayed_id]' role='dimension' type='ordinal' />
+      <column caption='Market Id (Dim Market.Csv)' datatype='integer' name='[market_id (dim_market.csv)]' role='dimension' type='ordinal' />
+      <column caption='Market Id' datatype='integer' name='[market_id]' role='dimension' type='ordinal' />
+      <column caption='Player Id (Dim Player.Csv)' datatype='integer' name='[player_id (dim_player.csv)]' role='dimension' type='ordinal' />
+      <column caption='Player Id' datatype='integer' name='[player_id]' role='dimension' type='ordinal' />
+      <column caption='Position Id (Dim Position.Csv)' datatype='integer' name='[position_id (dim_position.csv)]' role='dimension' type='ordinal' />
+      <column caption='Position Id' datatype='integer' name='[position_id]' role='dimension' type='ordinal' />
+      <column caption='Season Id (Dim Season.Csv)' datatype='integer' name='[season_id (dim_season.csv)]' role='dimension' type='ordinal' />
+      <column caption='Season Id' datatype='integer' name='[season_id]' role='dimension' type='ordinal' />
+      <column caption='Transfer Id (Dim Transfer.Csv)' datatype='integer' name='[transfer_id (dim_transfer.csv)]' role='dimension' type='ordinal' />
+      <column caption='Transfer Id' datatype='integer' name='[transfer_id]' role='dimension' type='ordinal' />
+      <column caption='X G' datatype='string' name='[xG]' role='dimension' type='nominal' />
+      <column caption='xG per90' datatype='string' name='[xG_per90]' role='dimension' type='nominal' />
+      <drill-paths>
+        <drill-path name='Season, Decade'>
+          <field>[Season]</field>
+          <field>[Decade]</field>
+        </drill-path>
+      </drill-paths>
+      <extract _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' object-id='' units='records'>
+        <connection access_mode='readonly' author-locale='it_IT' class='hyper' dbname='C:/Users/matti/AppData/Local/Temp/TableauTemp/#TableauTemp_1a3wlkt1kdczwc12udtcg1mvzd3l.hyper' default-settings='hyper' schema='Extract' sslmode='' tablename='Extract' update-time='10/30/2025 11:18:10 PM' username='tableau_internal_user'>
+          <relation type='collection'>
+            <relation name='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' table='[Extract].[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]' type='table' />
+            <relation name='dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE' table='[Extract].[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]' type='table' />
+            <relation name='dim_club.csv_3325E6664E14483F86ED603F60D61684' table='[Extract].[dim_club.csv_3325E6664E14483F86ED603F60D61684]' type='table' />
+            <relation name='dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F' table='[Extract].[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]' type='table' />
+            <relation name='dim_market.csv_E74635C31DDB47BCB0803EC0870C6894' table='[Extract].[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]' type='table' />
+            <relation name='dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23' table='[Extract].[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]' type='table' />
+            <relation name='dim_position.csv_2C78E527024F49D1B613AF7D50A11895' table='[Extract].[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]' type='table' />
+            <relation name='dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9' table='[Extract].[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]' type='table' />
+            <relation name='dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE' table='[Extract].[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]' type='table' />
+          </relation>
+          <cols>
+            <map key='[Aerials_Won]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Aerials_Won]' />
+            <map key='[Age]' value='[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE].[Age]' />
+            <map key='[Age_Range]' value='[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE].[Age_Range]' />
+            <map key='[Assists]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Assists]' />
+            <map key='[Assists_per90]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Assists_per90]' />
+            <map key='[Blocks]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Blocks]' />
+            <map key='[Carries_into_Final_Third]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Carries_into_Final_Third]' />
+            <map key='[City_of_Birth]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[City_of_Birth]' />
+            <map key='[Clearances]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Clearances]' />
+            <map key='[Club]' value='[dim_club.csv_3325E6664E14483F86ED603F60D61684].[Club]' />
+            <map key='[Competition]' value='[dim_club.csv_3325E6664E14483F86ED603F60D61684].[Competition]' />
+            <map key='[Continent]' value='[dim_club.csv_3325E6664E14483F86ED603F60D61684].[Continent]' />
+            <map key='[Continent_of_Birth]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[Continent_of_Birth]' />
+            <map key='[Country]' value='[dim_club.csv_3325E6664E14483F86ED603F60D61684].[Country]' />
+            <map key='[Country_of_Birth]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[Country_of_Birth]' />
+            <map key='[Decade]' value='[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9].[Decade]' />
+            <map key='[Draws]' value='[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F].[Draws]' />
+            <map key='[Dribblers_Challenged]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Dribblers_Challenged]' />
+            <map key='[Dribblers_Tackled]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Dribblers_Tackled]' />
+            <map key='[Errors]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Errors]' />
+            <map key='[F1]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[F1]' />
+            <map key='[Fee]' value='[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE].[Fee]' />
+            <map key='[Foot]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[Foot]' />
+            <map key='[Goals]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Goals]' />
+            <map key='[Goals_Assists]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Goals_Assists]' />
+            <map key='[Goals_per90]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Goals_per90]' />
+            <map key='[Height]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[Height]' />
+            <map key='[Highest_market_value]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[Highest_market_value]' />
+            <map key='[Highest_market_value_tier]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[Highest_market_value_tier]' />
+            <map key='[Interceptions]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Interceptions]' />
+            <map key='[Key_Passes]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Key_Passes]' />
+            <map key='[Loses]' value='[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F].[Loses]' />
+            <map key='[Market_Value]' value='[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894].[Market_Value]' />
+            <map key='[Name]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[Name]' />
+            <map key='[Non_Penalty_xG]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Non_Penalty_xG]' />
+            <map key='[Passes_Completed]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Passes_Completed]' />
+            <map key='[Played]' value='[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F].[Played]' />
+            <map key='[Position]' value='[dim_position.csv_2C78E527024F49D1B613AF7D50A11895].[Position]' />
+            <map key='[Price]' value='[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE].[Price]' />
+            <map key='[Progressive_Carries]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Progressive_Carries]' />
+            <map key='[Progressive_Passes]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Progressive_Passes]' />
+            <map key='[Red_Cards]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Red_Cards]' />
+            <map key='[Role]' value='[dim_position.csv_2C78E527024F49D1B613AF7D50A11895].[Role]' />
+            <map key='[Season]' value='[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9].[Season]' />
+            <map key='[Shot_Creating_Actions]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Shot_Creating_Actions]' />
+            <map key='[Shots_per90]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Shots_per90]' />
+            <map key='[Tackles]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Tackles]' />
+            <map key='[Through_Balls]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[Through_Balls]' />
+            <map key='[Trend]' value='[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE].[Trend]' />
+            <map key='[Value_Tier]' value='[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894].[Value_Tier]' />
+            <map key='[Wins]' value='[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F].[Wins]' />
+            <map key='[Wins_for_1]' value='[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F].[Wins_for_1]' />
+            <map key='[Wins_for_2plus]' value='[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F].[Wins_for_2plus]' />
+            <map key='[age_id (dim_age.csv)]' value='[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE].[age_id]' />
+            <map key='[age_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[age_id]' />
+            <map key='[club_id (dim_club.csv)]' value='[dim_club.csv_3325E6664E14483F86ED603F60D61684].[club_id]' />
+            <map key='[club_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[club_id]' />
+            <map key='[fact_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[fact_id]' />
+            <map key='[gamesplayed_id (dim_games_played.csv)]' value='[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F].[gamesplayed_id]' />
+            <map key='[gamesplayed_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[gamesplayed_id]' />
+            <map key='[market_id (dim_market.csv)]' value='[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894].[market_id]' />
+            <map key='[market_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[market_id]' />
+            <map key='[player_id (dim_player.csv)]' value='[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23].[player_id]' />
+            <map key='[player_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[player_id]' />
+            <map key='[position_id (dim_position.csv)]' value='[dim_position.csv_2C78E527024F49D1B613AF7D50A11895].[position_id]' />
+            <map key='[position_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[position_id]' />
+            <map key='[season_id (dim_season.csv)]' value='[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9].[season_id]' />
+            <map key='[season_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[season_id]' />
+            <map key='[transfer_id (dim_transfer.csv)]' value='[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE].[transfer_id]' />
+            <map key='[transfer_id]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[transfer_id]' />
+            <map key='[xG]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[xG]' />
+            <map key='[xG_per90]' value='[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7].[xG_per90]' />
+          </cols>
+          <metadata-records>
+            <metadata-record class='column'>
+              <remote-name>F1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[F1]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>F1</remote-alias>
+              <ordinal>0</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>8643</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>fact_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[fact_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>fact_id</remote-alias>
+              <ordinal>1</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>8643</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>player_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[player_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>player_id</remote-alias>
+              <ordinal>2</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2254</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>club_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[club_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>club_id</remote-alias>
+              <ordinal>3</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>157</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>season_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[season_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>season_id</remote-alias>
+              <ordinal>4</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>7</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>position_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[position_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>position_id</remote-alias>
+              <ordinal>5</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>11</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>market_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[market_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>market_id</remote-alias>
+              <ordinal>6</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>161</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>transfer_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[transfer_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>transfer_id</remote-alias>
+              <ordinal>7</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>4145</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>gamesplayed_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[gamesplayed_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>gamesplayed_id</remote-alias>
+              <ordinal>8</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>5639</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>age_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[age_id]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>age_id</remote-alias>
+              <ordinal>9</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>30</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Goals</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Goals]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Goals</remote-alias>
+              <ordinal>10</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>31</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Assists</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Assists]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Assists</remote-alias>
+              <ordinal>11</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>15</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>xG</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[xG]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>xG</remote-alias>
+              <ordinal>12</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>174</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Progressive_Passes</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Progressive_Passes]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Progressive_Passes</remote-alias>
+              <ordinal>13</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>275</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Progressive_Carries</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Progressive_Carries]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Progressive_Carries</remote-alias>
+              <ordinal>14</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>172</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Passes_Completed</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Passes_Completed]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Passes_Completed</remote-alias>
+              <ordinal>15</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>1700</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Key_Passes</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Key_Passes]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Key_Passes</remote-alias>
+              <ordinal>16</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>102</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Tackles</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Tackles]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Tackles</remote-alias>
+              <ordinal>17</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>115</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Interceptions</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Interceptions]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Interceptions</remote-alias>
+              <ordinal>18</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>89</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Clearances</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Clearances]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Clearances</remote-alias>
+              <ordinal>19</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>204</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Blocks</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Blocks]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Blocks</remote-alias>
+              <ordinal>20</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>69</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Red_Cards</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Red_Cards]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Red_Cards</remote-alias>
+              <ordinal>21</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Dribblers_Challenged</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Dribblers_Challenged]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Dribblers_Challenged</remote-alias>
+              <ordinal>22</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>123</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Goals_per90</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Goals_per90]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Goals_per90</remote-alias>
+              <ordinal>23</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>113</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Assists_per90</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Assists_per90]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Assists_per90</remote-alias>
+              <ordinal>24</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>77</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>xG_per90</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[xG_per90]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>xG_per90</remote-alias>
+              <ordinal>25</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>106</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Dribblers_Tackled</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Dribblers_Tackled]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Dribblers_Tackled</remote-alias>
+              <ordinal>26</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>60</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Goals_Assists</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Goals_Assists]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Goals_Assists</remote-alias>
+              <ordinal>27</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>40</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Errors</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Errors]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Errors</remote-alias>
+              <ordinal>28</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>7</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Aerials_Won</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Aerials_Won]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Aerials_Won</remote-alias>
+              <ordinal>29</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>177</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Through_Balls</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Through_Balls]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Through_Balls</remote-alias>
+              <ordinal>30</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>28</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Carries_into_Final_Third</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Carries_into_Final_Third]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Carries_into_Final_Third</remote-alias>
+              <ordinal>31</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>114</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Shot_Creating_Actions</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Shot_Creating_Actions]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Shot_Creating_Actions</remote-alias>
+              <ordinal>32</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>190</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Non_Penalty_xG</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Non_Penalty_xG]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Non_Penalty_xG</remote-alias>
+              <ordinal>33</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>157</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Shots_per90</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Shots_per90]</local-name>
+              <parent-name>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</parent-name>
+              <remote-alias>Shots_per90</remote-alias>
+              <ordinal>34</ordinal>
+              <family>fact_player_statistics.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>521</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>age_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[age_id (dim_age.csv)]</local-name>
+              <parent-name>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</parent-name>
+              <remote-alias>age_id</remote-alias>
+              <ordinal>35</ordinal>
+              <family>dim_age.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>26</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Age</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Age]</local-name>
+              <parent-name>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</parent-name>
+              <remote-alias>Age</remote-alias>
+              <ordinal>36</ordinal>
+              <family>dim_age.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>26</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Age_Range</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Age_Range]</local-name>
+              <parent-name>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</parent-name>
+              <remote-alias>Age_Range</remote-alias>
+              <ordinal>37</ordinal>
+              <family>dim_age.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>5</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>club_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[club_id (dim_club.csv)]</local-name>
+              <parent-name>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</parent-name>
+              <remote-alias>club_id</remote-alias>
+              <ordinal>38</ordinal>
+              <family>dim_club.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>144</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Club</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Club]</local-name>
+              <parent-name>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</parent-name>
+              <remote-alias>Club</remote-alias>
+              <ordinal>39</ordinal>
+              <family>dim_club.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>144</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Competition</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Competition]</local-name>
+              <parent-name>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</parent-name>
+              <remote-alias>Competition</remote-alias>
+              <ordinal>40</ordinal>
+              <family>dim_club.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>5</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Country</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Country]</local-name>
+              <parent-name>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</parent-name>
+              <remote-alias>Country</remote-alias>
+              <ordinal>41</ordinal>
+              <family>dim_club.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>5</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Continent</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Continent]</local-name>
+              <parent-name>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</parent-name>
+              <remote-alias>Continent</remote-alias>
+              <ordinal>42</ordinal>
+              <family>dim_club.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>1</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_club.csv_3325E6664E14483F86ED603F60D61684]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>gamesplayed_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[gamesplayed_id (dim_games_played.csv)]</local-name>
+              <parent-name>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</parent-name>
+              <remote-alias>gamesplayed_id</remote-alias>
+              <ordinal>43</ordinal>
+              <family>dim_games_played.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>8000</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Played</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Played]</local-name>
+              <parent-name>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</parent-name>
+              <remote-alias>Played</remote-alias>
+              <ordinal>44</ordinal>
+              <family>dim_games_played.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>57</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Wins</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Wins]</local-name>
+              <parent-name>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</parent-name>
+              <remote-alias>Wins</remote-alias>
+              <ordinal>45</ordinal>
+              <family>dim_games_played.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>36</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Draws</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Draws]</local-name>
+              <parent-name>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</parent-name>
+              <remote-alias>Draws</remote-alias>
+              <ordinal>46</ordinal>
+              <family>dim_games_played.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>19</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Loses</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Loses]</local-name>
+              <parent-name>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</parent-name>
+              <remote-alias>Loses</remote-alias>
+              <ordinal>47</ordinal>
+              <family>dim_games_played.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>27</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Wins_for_1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Wins_for_1]</local-name>
+              <parent-name>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</parent-name>
+              <remote-alias>Wins_for_1</remote-alias>
+              <ordinal>48</ordinal>
+              <family>dim_games_played.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>20</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Wins_for_2plus</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Wins_for_2plus]</local-name>
+              <parent-name>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</parent-name>
+              <remote-alias>Wins_for_2plus</remote-alias>
+              <ordinal>49</ordinal>
+              <family>dim_games_played.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>29</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>market_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[market_id (dim_market.csv)]</local-name>
+              <parent-name>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</parent-name>
+              <remote-alias>market_id</remote-alias>
+              <ordinal>50</ordinal>
+              <family>dim_market.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>160</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Market_Value</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Market_Value]</local-name>
+              <parent-name>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</parent-name>
+              <remote-alias>Market_Value</remote-alias>
+              <ordinal>51</ordinal>
+              <family>dim_market.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>160</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Value_Tier</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Value_Tier]</local-name>
+              <parent-name>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</parent-name>
+              <remote-alias>Value_Tier</remote-alias>
+              <ordinal>52</ordinal>
+              <family>dim_market.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>4</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>player_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[player_id (dim_player.csv)]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>player_id</remote-alias>
+              <ordinal>53</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2845</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Name</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Name]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>Name</remote-alias>
+              <ordinal>54</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>2154</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Height</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Height]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>Height</remote-alias>
+              <ordinal>55</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>40</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Foot</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Foot]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>Foot</remote-alias>
+              <ordinal>56</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>4</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Country_of_Birth</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Country_of_Birth]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>Country_of_Birth</remote-alias>
+              <ordinal>57</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>98</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>City_of_Birth</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[City_of_Birth]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>City_of_Birth</remote-alias>
+              <ordinal>58</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>1121</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Highest_market_value</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Highest_market_value]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>Highest_market_value</remote-alias>
+              <ordinal>59</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>108</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Highest_market_value_tier</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Highest_market_value_tier]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>Highest_market_value_tier</remote-alias>
+              <ordinal>60</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>5</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Continent_of_Birth</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Continent_of_Birth]</local-name>
+              <parent-name>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</parent-name>
+              <remote-alias>Continent_of_Birth</remote-alias>
+              <ordinal>61</ordinal>
+              <family>dim_player.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>7</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>position_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[position_id (dim_position.csv)]</local-name>
+              <parent-name>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</parent-name>
+              <remote-alias>position_id</remote-alias>
+              <ordinal>62</ordinal>
+              <family>dim_position.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>10</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Position</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Position]</local-name>
+              <parent-name>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</parent-name>
+              <remote-alias>Position</remote-alias>
+              <ordinal>63</ordinal>
+              <family>dim_position.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>10</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Role</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Role]</local-name>
+              <parent-name>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</parent-name>
+              <remote-alias>Role</remote-alias>
+              <ordinal>64</ordinal>
+              <family>dim_position.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>4</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>season_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[season_id (dim_season.csv)]</local-name>
+              <parent-name>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</parent-name>
+              <remote-alias>season_id</remote-alias>
+              <ordinal>65</ordinal>
+              <family>dim_season.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>7</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Season</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Season]</local-name>
+              <parent-name>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</parent-name>
+              <remote-alias>Season</remote-alias>
+              <ordinal>66</ordinal>
+              <family>dim_season.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>7</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Decade</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Decade]</local-name>
+              <parent-name>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</parent-name>
+              <remote-alias>Decade</remote-alias>
+              <ordinal>67</ordinal>
+              <family>dim_season.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>transfer_id</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[transfer_id (dim_transfer.csv)]</local-name>
+              <parent-name>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</parent-name>
+              <remote-alias>transfer_id</remote-alias>
+              <ordinal>68</ordinal>
+              <family>dim_transfer.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2750</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Fee</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Fee]</local-name>
+              <parent-name>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</parent-name>
+              <remote-alias>Fee</remote-alias>
+              <ordinal>69</ordinal>
+              <family>dim_transfer.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>300</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Price</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Price]</local-name>
+              <parent-name>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</parent-name>
+              <remote-alias>Price</remote-alias>
+              <ordinal>70</ordinal>
+              <family>dim_transfer.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>120</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Trend</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Trend]</local-name>
+              <parent-name>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</parent-name>
+              <remote-alias>Trend</remote-alias>
+              <ordinal>71</ordinal>
+              <family>dim_transfer.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LIT_RIT' />
+              <object-id>[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]</object-id>
+            </metadata-record>
+          </metadata-records>
+        </connection>
+      </extract>
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;IT&quot;' />
+      </semantic-values>
+      <date-options start-of-week='monday' />
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='F1' />
+        <field-sort-custom-order field='fact_id' />
+        <field-sort-custom-order field='player_id' />
+        <field-sort-custom-order field='club_id' />
+        <field-sort-custom-order field='season_id' />
+        <field-sort-custom-order field='position_id' />
+        <field-sort-custom-order field='market_id' />
+        <field-sort-custom-order field='transfer_id' />
+        <field-sort-custom-order field='gamesplayed_id' />
+        <field-sort-custom-order field='age_id' />
+        <field-sort-custom-order field='Goals' />
+        <field-sort-custom-order field='Assists' />
+        <field-sort-custom-order field='xG' />
+        <field-sort-custom-order field='Progressive_Passes' />
+        <field-sort-custom-order field='Progressive_Carries' />
+        <field-sort-custom-order field='Passes_Completed' />
+        <field-sort-custom-order field='Key_Passes' />
+        <field-sort-custom-order field='Tackles' />
+        <field-sort-custom-order field='Interceptions' />
+        <field-sort-custom-order field='Clearances' />
+        <field-sort-custom-order field='Blocks' />
+        <field-sort-custom-order field='Red_Cards' />
+        <field-sort-custom-order field='Dribblers_Challenged' />
+        <field-sort-custom-order field='Goals_per90' />
+        <field-sort-custom-order field='Calculation_1501669001810317312' />
+        <field-sort-custom-order field='Assists_per90' />
+        <field-sort-custom-order field='Calculation_1501669001810395137' />
+        <field-sort-custom-order field='xG_per90' />
+        <field-sort-custom-order field='Dribblers_Tackled' />
+        <field-sort-custom-order field='Goals_Assists' />
+        <field-sort-custom-order field='Errors' />
+        <field-sort-custom-order field='Aerials_Won' />
+        <field-sort-custom-order field='Through_Balls' />
+        <field-sort-custom-order field='Carries_into_Final_Third' />
+        <field-sort-custom-order field='Shot_Creating_Actions' />
+        <field-sort-custom-order field='Non_Penalty_xG' />
+        <field-sort-custom-order field='Shots_per90' />
+      </field-sort-info>
+      <object-graph>
+        <objects>
+          <object caption='dim_age.csv' id='dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_age.csv' table='[dim_age#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='age_id' ordinal='0' />
+                  <column datatype='integer' name='Age' ordinal='1' />
+                  <column datatype='string' name='Age_Range' ordinal='2' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE' table='[Extract].[dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_club.csv' id='dim_club.csv_3325E6664E14483F86ED603F60D61684'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_club.csv' table='[dim_club#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='club_id' ordinal='0' />
+                  <column datatype='string' name='Club' ordinal='1' />
+                  <column datatype='string' name='Competition' ordinal='2' />
+                  <column datatype='string' name='Country' ordinal='3' />
+                  <column datatype='string' name='Continent' ordinal='4' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_club.csv_3325E6664E14483F86ED603F60D61684' table='[Extract].[dim_club.csv_3325E6664E14483F86ED603F60D61684]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_games_played.csv' id='dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_games_played.csv' table='[dim_games_played#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='gamesplayed_id' ordinal='0' />
+                  <column datatype='integer' name='Played' ordinal='1' />
+                  <column datatype='integer' name='Wins' ordinal='2' />
+                  <column datatype='integer' name='Draws' ordinal='3' />
+                  <column datatype='integer' name='Loses' ordinal='4' />
+                  <column datatype='integer' name='Wins_for_1' ordinal='5' />
+                  <column datatype='integer' name='Wins_for_2plus' ordinal='6' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F' table='[Extract].[dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_market.csv' id='dim_market.csv_E74635C31DDB47BCB0803EC0870C6894'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_market.csv' table='[dim_market#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='market_id' ordinal='0' />
+                  <column datatype='integer' name='Market_Value' ordinal='1' />
+                  <column datatype='string' name='Value_Tier' ordinal='2' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_market.csv_E74635C31DDB47BCB0803EC0870C6894' table='[Extract].[dim_market.csv_E74635C31DDB47BCB0803EC0870C6894]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_player.csv' id='dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_player.csv' table='[dim_player#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='player_id' ordinal='0' />
+                  <column datatype='string' name='Name' ordinal='1' />
+                  <column datatype='string' name='Height' ordinal='2' />
+                  <column datatype='string' name='Foot' ordinal='3' />
+                  <column datatype='string' name='Country_of_Birth' ordinal='4' />
+                  <column datatype='string' name='City_of_Birth' ordinal='5' />
+                  <column datatype='string' name='Highest_market_value' ordinal='6' />
+                  <column datatype='string' name='Highest_market_value_tier' ordinal='7' />
+                  <column datatype='string' name='Continent_of_Birth' ordinal='8' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23' table='[Extract].[dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_position.csv' id='dim_position.csv_2C78E527024F49D1B613AF7D50A11895'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_position.csv' table='[dim_position#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='position_id' ordinal='0' />
+                  <column datatype='string' name='Position' ordinal='1' />
+                  <column datatype='string' name='Role' ordinal='2' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_position.csv_2C78E527024F49D1B613AF7D50A11895' table='[Extract].[dim_position.csv_2C78E527024F49D1B613AF7D50A11895]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_season.csv' id='dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_season.csv' table='[dim_season#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='season_id' ordinal='0' />
+                  <column datatype='integer' name='Season' ordinal='1' />
+                  <column datatype='string' name='Decade' ordinal='2' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9' table='[Extract].[dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9]' type='table' />
+            </properties>
+          </object>
+          <object caption='dim_transfer.csv' id='dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='dim_transfer.csv' table='[dim_transfer#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='transfer_id' ordinal='0' />
+                  <column datatype='string' name='Fee' ordinal='1' />
+                  <column datatype='string' name='Price' ordinal='2' />
+                  <column datatype='string' name='Trend' ordinal='3' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE' table='[Extract].[dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE]' type='table' />
+            </properties>
+          </object>
+          <object caption='fact_player_statistics.csv' id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7'>
+            <properties context=''>
+              <relation connection='textscan.1i1vhn60yrescl11j72mc0tz1rho' name='fact_player_statistics.csv' table='[fact_player_statistics#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='it_IT'>
+                  <column datatype='integer' name='F1' ordinal='0' />
+                  <column datatype='integer' name='fact_id' ordinal='1' />
+                  <column datatype='integer' name='player_id' ordinal='2' />
+                  <column datatype='integer' name='club_id' ordinal='3' />
+                  <column datatype='integer' name='season_id' ordinal='4' />
+                  <column datatype='integer' name='position_id' ordinal='5' />
+                  <column datatype='integer' name='market_id' ordinal='6' />
+                  <column datatype='integer' name='transfer_id' ordinal='7' />
+                  <column datatype='integer' name='gamesplayed_id' ordinal='8' />
+                  <column datatype='integer' name='age_id' ordinal='9' />
+                  <column datatype='integer' name='Goals' ordinal='10' />
+                  <column datatype='integer' name='Assists' ordinal='11' />
+                  <column datatype='string' name='xG' ordinal='12' />
+                  <column datatype='integer' name='Progressive_Passes' ordinal='13' />
+                  <column datatype='integer' name='Progressive_Carries' ordinal='14' />
+                  <column datatype='integer' name='Passes_Completed' ordinal='15' />
+                  <column datatype='integer' name='Key_Passes' ordinal='16' />
+                  <column datatype='integer' name='Tackles' ordinal='17' />
+                  <column datatype='integer' name='Interceptions' ordinal='18' />
+                  <column datatype='integer' name='Clearances' ordinal='19' />
+                  <column datatype='integer' name='Blocks' ordinal='20' />
+                  <column datatype='integer' name='Red_Cards' ordinal='21' />
+                  <column datatype='integer' name='Dribblers_Challenged' ordinal='22' />
+                  <column datatype='string' name='Goals_per90' ordinal='23' />
+                  <column datatype='string' name='Assists_per90' ordinal='24' />
+                  <column datatype='string' name='xG_per90' ordinal='25' />
+                  <column datatype='integer' name='Dribblers_Tackled' ordinal='26' />
+                  <column datatype='integer' name='Goals_Assists' ordinal='27' />
+                  <column datatype='integer' name='Errors' ordinal='28' />
+                  <column datatype='integer' name='Aerials_Won' ordinal='29' />
+                  <column datatype='integer' name='Through_Balls' ordinal='30' />
+                  <column datatype='integer' name='Carries_into_Final_Third' ordinal='31' />
+                  <column datatype='integer' name='Shot_Creating_Actions' ordinal='32' />
+                  <column datatype='string' name='Non_Penalty_xG' ordinal='33' />
+                  <column datatype='string' name='Shots_per90' ordinal='34' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' table='[Extract].[fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7]' type='table' />
+            </properties>
+          </object>
+        </objects>
+        <relationships>
+          <relationship>
+            <expression op='='>
+              <expression op='[age_id]' />
+              <expression op='[age_id (dim_age.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_age.csv_1C5A90D8E47D4EED8C6485947E5D9EAE' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[club_id]' />
+              <expression op='[club_id (dim_club.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_club.csv_3325E6664E14483F86ED603F60D61684' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[gamesplayed_id]' />
+              <expression op='[gamesplayed_id (dim_games_played.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_games_played.csv_CA075CC788B4424C97F98AC25FF5902F' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[market_id]' />
+              <expression op='[market_id (dim_market.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_market.csv_E74635C31DDB47BCB0803EC0870C6894' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[player_id]' />
+              <expression op='[player_id (dim_player.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_player.csv_A9F7BDFB3FE34D508248DCDF21190B23' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[position_id]' />
+              <expression op='[position_id (dim_position.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_position.csv_2C78E527024F49D1B613AF7D50A11895' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[season_id]' />
+              <expression op='[season_id (dim_season.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_season.csv_418DC73C06D74A6AA1FD7AAA799A36A9' />
+          </relationship>
+          <relationship>
+            <expression op='='>
+              <expression op='[transfer_id]' />
+              <expression op='[transfer_id (dim_transfer.csv)]' />
+            </expression>
+            <first-end-point object-id='fact_player_statistics.csv_715D2E5C2BF447AF86A4D0C668CDD5B7' />
+            <second-end-point object-id='dim_transfer.csv_780ABCE3B90A40D79962D3C18465D7FE' />
+          </relationship>
+        </relationships>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Foglio 1'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='fact_player_statistics+' name='federated.0jny3f20xszvpg0zzaphb0zsin6k' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0jny3f20xszvpg0zzaphb0zsin6k'>
+            <column caption='xG_per90' datatype='real' name='[Calculation_1501669001810395137]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='FLOAT(REPLACE([xG_per90], &quot;,&quot;, &quot;.&quot;))' />
+            </column>
+            <column datatype='string' name='[Role]' role='dimension' type='nominal' />
+            <column aggregation='Sum' datatype='integer' name='[Season]' role='dimension' type='ordinal' />
+            <column-instance column='[Calculation_1501669001810395137]' derivation='Avg' name='[avg:Calculation_1501669001810395137:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Role]' derivation='None' name='[none:Role:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Season]' derivation='None' name='[none:Season:qk]' pivot='key' type='quantitative' />
+            <column caption='xG per90' datatype='string' name='[xG_per90]' role='dimension' type='nominal' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='1' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Line' />
+            <encodings>
+              <color column='[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Role:nk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[avg:Calculation_1501669001810395137:qk]</rows>
+        <cols>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Season:qk]</cols>
+      </table>
+      <simple-id uuid='{2976554F-B4DE-4405-814B-09645AEFB713}' />
+    </worksheet>
+  </worksheets>
+  <windows source-height='30'>
+    <window class='worksheet' maximized='true' name='Foglio 1'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card pane-specification-id='1' param='[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Role:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Competition:nk]</field>
+            <field>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Continent:nk]</field>
+            <field>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Fee:nk]</field>
+            <field>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Goals_per90:nk]</field>
+            <field>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Position:nk]</field>
+            <field>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Role:nk]</field>
+            <field>[federated.0jny3f20xszvpg0zzaphb0zsin6k].[none:Season:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{56EDB287-F90C-46AA-B212-3906F9E0C3B8}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Foglio 1' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
+      AAAOh0lEQVR4nO3dW5PbRnrG8X83AJIg53zQSHOQLNuJdzebrT3Jdr5DbnKXD5iL3KQq9/kA
+      m/UhlV17U7FlWdacTyRnhsMTgO7OBTgjyaNZQ8xwJKHfX9UUiuSI1RD6AbqBdwDlnHMI4Sl9
+      E1/iW4acc16tc5nX9UYCYK29ia95Z1hrS90pfswY86abMDE3EgAh3lUSAOE1CYDwmgRAeE0C
+      ILxWKADOOdqtFtY5smRA6+QMkw5onpxNun1CTFRY5JfsoMX50NHdP2Z5LmZne5s9lbG0so61
+      1rvTghfr6svpX2stWZa96WZMRKEAKBXQOT1meiqmOwghy6jONjg9OWFlaQHnHEEQTLqtbw1j
+      DEoptPZjBJllGWFYqKu8c1TRUghrLYPBgDiOcc6hlMI50FphjJEAlFiZA1B4rbTW1Ot1AJRS
+      o+VkGiXEbSlnrCctG2A7u1BfRNVmQGngYqcge4V3iQRgDO7kGenX/wb9Nm5wBs4ACpRCVaZQ
+      9XlUPI+qzeU/9QVUbRbVWELF8xBURodPJYF5wwrPAf4amQPknDUw7GD7JzBoY/ttXP8U12/h
+      +m1cL19ikuehCasvhGQGVZtHxXOo+mK+jPP3QY8OMrcfmjLPASQAY7jJSbBL+7jBKCSDM1yv
+      OVoe5+/3WrjhGdiLo4xGVRt5MOL5/MhyEZiLIN3wUUYC8BMkALfHWYMbnuH6J/lRpX/yPEBX
+      jjIOcBDFo6BcBOaFIVltNg9NdZqLYdyPQyMB+AkSgLebS3ujoVgbNxwdVQanuO7x8/AMO3lg
+      nMtzUJu7DI2rzhKu/Jzg7t9DWCvVvEUCMIZ3LQCvy9ksH4YN8tCYbhOO/xez/xWgCNZ+S7D+
+      iGDllxBE73QgJABjKHsAfuzFIZBL+5idLzHbn2N2/wSVOsHabwnv/wN6+Wco/W71g2IBcA7r
+      HEppwF1eCYb8vLcEoNz+2hzA9k8wW59htj/HHj9GxXMEGx8TrD9CL7z/1geiUABs0uHxDwfM
+      Ly4zXdN8/2yHB+t3+GG3yd999CHWWm86A+RlIUr5cw7/dXZwrtfEbH1GtvUZtvkYPbNGsPGI
+      cOMT1Mz6W1c+UCgApnvEXreKS7vcW57n8TdPcBF0OgMe/e43GGMkACU29hHeOVxnF7f7X2Sb
+      /4k53YXZdcKNTwjWH6GmlkejijenUACccxwfHhBGESoIGQxT7t5ZYjgcUK3WZAhUcjd1GtQ5
+      h209zecPW3/E9VvohQ/yCfXGo/w07S0HQibBY5AA3AxnM+zRt5idL8i2Poeki77zM8L7nxKs
+      /gYqUxM/ykoAxiABmAxnM+zBX8i2PsPsfAkmJbj7K4L13xOs/hqi+o0HQgIwBgnA7XBJD7P/
+      FWb7M8zeV6A1weqvCTc+Qd/5BQSV/3cgJABjkAC8GS7pYvb+RLb5B+zB/0BYJVz7PcHGx+jl
+      j1BB9NrfKQEYgwTg7WD7bcz2l5jNP2Cb36HqS/lV6vufoucfoPRPt1kCMAYJwNvJnh/mV6k3
+      /4htP0VNreTXINY/Rs2uv/KinARgDBKAt59zDne6Rbb9BWb7C+zpFsHC+wRrvyO4/2leCau0
+      BGAcEoB3z/NrEHnZhuu10QsPJQDjkAC8+5zJsM1vixfDGWvROgDywjitGN0WRUsASq6MAbhQ
+      7M5w6TnfPTtkfmHpshhu9d4yzXaHDx4+AMr9FJHr+LTOZV3XQgFw2YD6zBLDfo/5qXmUMZz3
+      uszO53eF8+UWgRd8K4a7WN8yKhQAHS8Rnx8SNKp0hwmLd+8SqYxhkqC19u7WiIBXQ6Ayb1+Z
+      BI9B5gDl4ccWFOIaEgDhNQmA8JoEQHhNAiC8JgEQXpMACK9JAITXJADCa8VqgcyQ759usbiy
+      RlVn7O43adQjEhtwf+3upNsoxMQUqwbttYmX7nN+dsTMyjL9XpeoNocyiTwn2APePydYTy1j
+      nm1SqdU56XSZnpmlUa2Qob0shpNaoPKQYrgxSADKw48tKMQ1JADCaxIA4TUJgPCaBEB4TQIg
+      vCYBEF6TAAivSQCE14oVwznD9uYmi3c3IO3ROutRrwakVrOyvDjpNgoxMcWK4bpHhLOrtI4P
+      ubeyxPCgSdJPSWzA8uK8FMOVnBTD1eboPt2iFtfZ3tnBqYBKpNEukGI4D5S5Fui1iuGuK3qT
+      YrhyK3MAXmsL+tTJhR/82IUJcQ0JgPCaBEB4TQIgvCYBEF6TAAivSQCE1yQAwmuFAuCc4/jo
+      EGMdWTqk2TohGfRotk8n3T4hJqpYMVy/ycBG7O0fsTQ/zUm7xf5el8XlVbkznAe8L4ZTQYVO
+      +5CpqZj9vS16Q8301BTnnTPu3lmUYriSK3MtUOFiOGstyXBINY5R5HtBB2ilpBiu5MocgMJr
+      pbWmFseXr5VSlPPZ4cInfuzChLiGBEB4TQIgvCYBEF6TAAivSQCE1yQAwmsSAOG1YgFwjiRJ
+      cA6csyRpinMOY8yEmyfEZBUrhks6PNtuMTM7x1RNs7N7yMqdObb32/ziow9xznlTGHbBp3Uu
+      87oWfFB2QlSbIhn06RtHVKtzdHjEeaf3/Hc8rAb1SVnXuVAxnHOO03YbpRU6DOn1hizfWSJL
+      EiqVihTDlVyZi+HkOcFjkACUhx9bUIhrSACE1yQAwmsSAOE1CYDwmgRAeE0CILwmARBekwAI
+      rxWrBcoGPHm6zeLKKhWVcnDUZm5uik53yIONtUm3UYiJKVYNOjihvrTOeafF0myDoFJFWUu1
+      FsutET3g/a0RdWMZu7lFNa5z2u1j0pQuCU7X5DnBHihzLZAUw41BAlAefmxBIa4hARBekwAI
+      r0kAhNckAMJrEgDhNQmA8JoEQHhNAiC8VqwWKOvz/dMdFu6sUtUp+0dt4lpAagIebKxOuo1C
+      TEyxatDBKfWldbrnLeLZBmGlinMW7TIphvOAFMM1lrFb21RrMWejYrjp2QYGLcVwHihzLZAU
+      w41BAlAefmxBIa5xJQDOWX548i1Pt/bwZ1QvfHUlAL2Dx/xl84Rvv/ycjjz/QpTclQDES/fp
+      73zNsasx7c+wXnjqSgAG7R3i+bvMhSGn5TzzJcSlK1P7+tIHvP/egA8/+jklnfgLcenqWSCl
+      6Da3+Zd//XcSmQWLknvlaVAb1FD9U1I/LnQKj70yAHEt5t7994jkKoEouVd3caUI3ZBvnzwD
+      wNmMzR++p9tPSfrn7B+1aB4dsHdwfJttFeLGXVsK4azl2dYW7z14gOnsc2gWMN1jVu+tcHBw
+      xKB3RmJD/uaD9y5LA3xx8V/myzpba0tb9nHlPI9zDmfzp8FPT00BoOvz9J5uUosbnPf69Ho9
+      atUaAaEUw3mgzLVAV44A3f1v+O8fTnn2ZId//Od/YuaFfn3dnkCK4cqtzAG4eiV4cYNO65jZ
+      hWnqP/rUlw0u/HGlR+uozupSg2a7g/NjiCs89spJsLWWbJgQxDWKDGxkCFRuXg2BkkGXra0t
+      vv7z10gpkCi7KwFQSvP1V39md2eboZRDi5K7EoCoGvOrjx4Szi7S8OMILzz2yi6+d9Rk/+lj
+      +lILJEru6hzg7IAnW0esv/+3VP2Z1wpPXR0CTS3yyw/XaTZbb6I9QtyqK+e2sm6LxzstPvzg
+      IReXAZzN2Hy2yeLdDSoMaXUSaqElI2RpYe6WmyzEzSl0X6BXFcOdnTapNebYWLsnxXAl51Ux
+      3Kvo+jz9l4rh+szOLZAapBjOA2W+EPZad4aTYricBKA8XmsL+rLBhT+kRwuvSQCE1yQAwmsS
+      AOE1CYDwmgRAeE0CILwmARBeKxQA5xwHe7ukxmKyhNNOF+cs7fbJpNsnxEQVe05w75gsmubg
+      4JA7i7OcnZ6SdE9onQ+ZnZ2Rx6SWnPePSVVRTGd7j0ajzjA1nHc60Khyfn4uxXAeKHMtUOFi
+      OOccaZIQVav8uAhYiuHKrcwBKLxWSikq1eok2yLErfNjFybENcp5XBOvZJ3DWEtiMhJjGGYZ
+      wyyjmyYMsox+mtBPR8ssJTGGzFgya2A08NXq5aVSCvXCUiuFe+HzUGsUEOoAVP764n1G76uL
+      1+r562D074Irn2uUUgRKoVAvf5/KX2ul0KPPL9urL16DQj1v9+v8Qcx1ZA5we6xzpMaQWkM6
+      6sSDLKOXJvTSlEGa0s9S+mn+kxiDsZZsdKYu0JooCIgCTTUIiaMo/wkj4qhCHEXUo4haGFEJ
+      grxjOXc5B3DO4XDYUbfJFw7rnrfv+dKRjc6UGWtxDjJrcPDy+6Pfyz/P389Dl792l/9+9Hs4
+      jHWjpX3+fY4XPs/fv2iHte7ytcON1kOOAG+EdZbMWIbGkFnDIMsYpGnegbOUXprQT9O8YycJ
+      qc33wsbmHS/U+rIDV8KQWph32jiKmItj7oUz1EedOdSaMNCEOsj3mmP8HXOWZZd72rKRAIzJ
+      Occwy4cSicle2hNf7H1f3BNno71wZg3OudFeOCDSAbUwpBZFeacNQxbiBvWZfC9cr0R559X5
+      4T1Q2ps/xr8NEoAxbJ6e8B/ffUMUBFSCkEhraqNhw8WeeKnRIA7zTl2LQkKdDycCrcfeE4ub
+      J3OAMch1gPLwYwsKcY1iAXCObreLc/nYN8syTJowGCYTbp4Qk1WsGG54yuFxl1o8ZL4Rsnt0
+      xvLCNIfHLd5/+B7OOW8Kw2B0KtCz4r+ybt+CRwCLcZAlAwgqmHTI4d4OlXhqws17e8kkthwK
+      TYKdc/R7PYwxVOOYLE1RCqxTNOqxTIJLrsyT4GLl0EpRbzQuX1eiaGINEuI2+bELE+IaEgDh
+      NQmA8JoEQHhNAiC8JgEQXpMACK9JAITXJADCa8WK4dIe3z3dYfHOPRqR5aDVpaISBjbg4f31
+      SbdRiIkpFAA37DC1tEave8Li2j0qZz2sDQiwWGvl1ogl5/2tEXVjGU52iKs1zs67GGOYatQx
+      BHJrRA+UuRhO/iRyDBKA8vBjCwpxDQmA8JoEQHhNAiC8JgEQXpMACK9JAITXJADCa/8HpeLN
+      wy4xYdAAAAAASUVORK5CYII=
+    </thumbnail>
+  </thumbnails>
+</workbook>

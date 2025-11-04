@@ -1,0 +1,11 @@
+position_id,Position,Role
+1,DF,Defender
+2,MF,Midfielder
+3,FW,Forward
+4,"MF,FW",Midfielder
+5,"FW,MF",Forward
+6,"DF,FW",Defender
+7,"DF,MF",Defender
+8,"MF,DF",Midfielder
+9,"FW,DF",Forward
+10,GK,Goalkeeper

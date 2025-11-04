@@ -1,0 +1,145 @@
+club_id,Club,Competition,Country,Continent
+1,Reims,Ligue 1,France,Europe
+2,Clermont Foot,Ligue 1,France,Europe
+3,Lorient,Ligue 1,France,Europe
+4,Greuther Frth,Bundesliga,Germany,Europe
+5,Roma,Serie A,Italy,Europe
+6,Lazio,Serie A,Italy,Europe
+7,Eint Frankfurt,Bundesliga,Germany,Europe
+8,Hoffenheim,Bundesliga,Germany,Europe
+9,Leverkusen,Bundesliga,Germany,Europe
+10,Bordeaux,Ligue 1,France,Europe
+11,Spezia,Serie A,Italy,Europe
+12,Rennes,Ligue 1,France,Europe
+13,Monaco,Ligue 1,France,Europe
+14,Strasbourg,Ligue 1,France,Europe
+15,Celta Vigo,La Liga,Spain,Europe
+16,Torino,Serie A,Italy,Europe
+17,Cdiz,La Liga,Spain,Europe
+18,Manchester City,Premier League,England,Europe
+19,Real Madrid,La Liga,Spain,Europe
+20,Valencia,La Liga,Spain,Europe
+21,Liverpool,Premier League,England,Europe
+22,Everton,Premier League,England,Europe
+23,Cagliari,Serie A,Italy,Europe
+24,Barcelona,La Liga,Spain,Europe
+25,Brighton,Premier League,England,Europe
+26,Metz,Ligue 1,France,Europe
+27,Genoa,Serie A,Italy,Europe
+28,Venezia,Serie A,Italy,Europe
+29,Crystal Palace,Premier League,England,Europe
+30,Kln,Bundesliga,Germany,Europe
+31,Lille,Ligue 1,France,Europe
+32,Stuttgart,Bundesliga,Germany,Europe
+33,Bochum,Bundesliga,Germany,Europe
+34,Lyon,Ligue 1,France,Europe
+35,Saint-tienne,Ligue 1,France,Europe
+36,Granada,La Liga,Spain,Europe
+37,Southampton,Premier League,England,Europe
+38,Udinese,Serie A,Italy,Europe
+39,Hertha BSC,Bundesliga,Germany,Europe
+40,Empoli,Serie A,Italy,Europe
+41,Arsenal,Premier League,England,Europe
+42,Sampdoria,Serie A,Italy,Europe
+43,Villarreal,La Liga,Spain,Europe
+44,Union Berlin,Bundesliga,Germany,Europe
+45,Leeds United,Premier League,England,Europe
+46,Troyes,Ligue 1,France,Europe
+47,Mallorca,La Liga,Spain,Europe
+48,Aston Villa,Premier League,England,Europe
+49,Marseille,Ligue 1,France,Europe
+50,Rayo Vallecano,La Liga,Spain,Europe
+51,Milan,Serie A,Italy,Europe
+52,Brentford,Premier League,England,Europe
+53,Espanyol,La Liga,Spain,Europe
+54,Inter,Serie A,Italy,Europe
+55,Chelsea,Premier League,England,Europe
+56,Burnley,Premier League,England,Europe
+57,Leicester City,Premier League,England,Europe
+58,Bologna,Serie A,Italy,Europe
+59,Augsburg,Bundesliga,Germany,Europe
+60,Manchester Utd,Premier League,England,Europe
+61,Brest,Ligue 1,France,Europe
+62,Mainz 05,Bundesliga,Germany,Europe
+63,Dortmund,Bundesliga,Germany,Europe
+64,West Ham,Premier League,England,Europe
+65,Gladbach,Bundesliga,Germany,Europe
+66,Angers,Ligue 1,France,Europe
+67,Sassuolo,Serie A,Italy,Europe
+68,Juventus,Serie A,Italy,Europe
+69,Hellas Verona,Serie A,Italy,Europe
+70,Fiorentina,Serie A,Italy,Europe
+71,Nantes,Ligue 1,France,Europe
+72,Wolves,Premier League,England,Europe
+73,Salernitana,Serie A,Italy,Europe
+74,Wolfsburg,Bundesliga,Germany,Europe
+75,Nice,Ligue 1,France,Europe
+76,Elche,La Liga,Spain,Europe
+77,Osasuna,La Liga,Spain,Europe
+78,Norwich City,Premier League,England,Europe
+79,Atltico Madrid,La Liga,Spain,Europe
+80,Betis,La Liga,Spain,Europe
+81,Arminia,Bundesliga,Germany,Europe
+82,Montpellier,Ligue 1,France,Europe
+83,Newcastle Utd,Premier League,England,Europe
+84,Lens,Ligue 1,France,Europe
+85,Watford,Premier League,England,Europe
+86,Bayern Munich,Bundesliga,Germany,Europe
+87,Sevilla,La Liga,Spain,Europe
+88,Tottenham,Premier League,England,Europe
+89,Napoli,Serie A,Italy,Europe
+90,Paris S-G,Ligue 1,France,Europe
+91,Atalanta,Serie A,Italy,Europe
+92,Levante,La Liga,Spain,Europe
+93,RB Leipzig,Bundesliga,Germany,Europe
+94,Freiburg,Bundesliga,Germany,Europe
+95,Alavs,La Liga,Spain,Europe
+96,Real Sociedad,La Liga,Spain,Europe
+97,Getafe,La Liga,Spain,Europe
+98,Athletic Club,La Liga,Spain,Europe
+99,Dijon,Ligue 1,France,Europe
+100,Bournemouth,Premier League,England,Europe
+101,Amiens,Ligue 1,France,Europe
+102,Nmes,Ligue 1,France,Europe
+103,Toulouse,Ligue 1,France,Europe
+104,Paderborn 07,Bundesliga,Germany,Europe
+105,Legans,La Liga,Spain,Europe
+106,Brescia,Serie A,Italy,Europe
+107,Dsseldorf,Bundesliga,Germany,Europe
+108,Sheffield Utd,Premier League,England,Europe
+109,Valladolid,La Liga,Spain,Europe
+110,Parma,Serie A,Italy,Europe
+111,Werder Bremen,Bundesliga,Germany,Europe
+112,Schalke 04,Bundesliga,Germany,Europe
+113,Eibar,La Liga,Spain,Europe
+114,SPAL,Serie A,Italy,Europe
+115,Lecce,Serie A,Italy,Europe
+116,Fulham,Premier League,England,Europe
+117,West Brom,Premier League,England,Europe
+118,Benevento,Serie A,Italy,Europe
+119,Crotone,Serie A,Italy,Europe
+120,Huesca,La Liga,Spain,Europe
+121,Hannover 96,Bundesliga,Germany,Europe
+122,Frosinone,Serie A,Italy,Europe
+123,Caen,Ligue 1,France,Europe
+124,Cardiff City,Premier League,England,Europe
+125,Chievo,Serie A,Italy,Europe
+126,Nrnberg,Bundesliga,Germany,Europe
+127,Guingamp,Ligue 1,France,Europe
+128,Huddersfield,Premier League,England,Europe
+129,Girona,La Liga,Spain,Europe
+130,Luton Town,Premier League,England,Europe
+131,Nott'ham Forest,Premier League,England,Europe
+132,Le Havre,Ligue 1,France,Europe
+133,Almera,La Liga,Spain,Europe
+134,Heidenheim,Bundesliga,Germany,Europe
+135,Monza,Serie A,Italy,Europe
+136,Las Palmas,La Liga,Spain,Europe
+137,Darmstadt 98,Bundesliga,Germany,Europe
+138,Cremonese,Serie A,Italy,Europe
+139,Ajaccio,Ligue 1,France,Europe
+140,Auxerre,Ligue 1,France,Europe
+141,St. Pauli,Bundesliga,Germany,Europe
+142,Holstein Kiel,Bundesliga,Germany,Europe
+143,Ipswich Town,Premier League,England,Europe
+144,Como,Serie A,Italy,Europe
