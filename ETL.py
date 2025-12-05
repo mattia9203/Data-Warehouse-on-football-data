@@ -41,6 +41,7 @@ player_valuations.drop(columns=['player_id', 'current_club_id', 'player_club_dom
 # Save the processed file
 player_valuations.to_csv("data/player_valuations_processed.csv", index=False)
 
+
 player_valuations_path = "data/player_valuations_processed.csv"
 player_valuations = pd.read_csv(player_valuations_path)
 dataset_1_path = "data/dataset_1/player_possession.csv"
@@ -306,7 +307,7 @@ for fname in dataset1_files:
     country_to_continent.update(
         pd.Series(tmp.continent.values, index=tmp.country).to_dict()
     )
-print(f"Lookup built: {len(country_to_continent)} country→continent pairs")
+print(f"Lookup built: {len(country_to_continent)} country-continent pairs")
 
 
 #fill country & continent; drop rows missing born
@@ -522,320 +523,6 @@ if "player_id" in cols:
     val_df = val_df[cols]
 
 val_df.to_csv(VAL_PATH, index=False)
-"""
-"""
-correct_names_path = "data/dataset_2/players.csv"      # CSV with correct names (with accents)
-wrong_names_path   = "data/global_selected_8000/selected_cleaned_player_standard_stats.csv"        # CSV with names missing accents
-output_path        = "data/final_selected_8000/player_standard_stats.csv"        # Output file
-
-# --- Load the CSV files ---
-correct_df = pd.read_csv(correct_names_path)
-correct_df = correct_df.rename(columns={'name':'player'})
-wrong_df   = pd.read_csv(wrong_names_path)
-wrong_df = wrong_df.rename(columns={'name':'player'})
-
-# --- Sanity check: ensure 'player_id' exists ---
-if 'player_id' not in correct_df.columns or 'player_id' not in wrong_df.columns:
-    raise ValueError("Both files must contain a 'player_id' column")
-
-name_column = "player"
-
-# --- Merge the correct name using player_id ---
-merged = wrong_df.merge(
-    correct_df[['player_id', name_column]],
-    on='player_id',                                                                                                                                        TO DELETE
-    how='left',
-    suffixes=('', '_correct')
-)
-
-# --- Replace names in wrong_df with correct ones ---
-if name_column in wrong_df.columns:
-    merged[name_column] = merged[f"{name_column}_correct"].combine_first(merged[name_column])
-else:
-    merged.rename(columns={f"{name_column}_correct": name_column}, inplace=True)
-
-# --- Drop helper column and save ---
-merged.drop(columns=[c for c in merged.columns if c.endswith('_correct')], inplace=True)
-merged.to_csv(output_path, index=False)
-"""
-"""
-events_path = "data/game_lineups.csv"            # your original CSV
-filtered_path = "data/game_events_lineups.csv"  # output file
-
-# --- Load the dataset ---
-df = pd.read_csv(events_path)
-
-# --- Ensure 'date' column is in datetime format ---
-df['date'] = pd.to_datetime(df['date'], errors='coerce')
-
-# --- Filter rows where date >= 2018-01-01 and <= 2024-12-31 ---
-df_filtered = df[
-    (df['date'] >= '2018-01-01') & (df['date'] <= '2024-12-31')
-]
-
-# --- Save the filtered file ---
-df_filtered.to_csv(filtered_path, index=False)
-
-# --- Input paths ---
-players_path = "data/final_selected_8000/players.csv"                # all players (with player_id, player_name)
-events_path = "data/game_events_lineups.csv"   # filtered game events file
-output_path = "data/game_played.csv"             # output
-
-# --- Load data ---
-players_df = pd.read_csv(players_path)
-events_df  = pd.read_csv(events_path)
-
-events_df = events_df.rename(columns={'player_name':'player'})
-
-# --- Ensure date is datetime ---
-events_df['date'] = pd.to_datetime(events_df['date'], errors='coerce')
-
-# --- Extract season (year) from date ---
-events_df['season'] = events_df['date'].dt.year
-
-# --- Keep only seasons between 2018–2024 (safety) ---
-events_df = events_df[(events_df['season'] >= 2018) & (events_df['season'] <= 2024)]
-
-# --- Count games per player per season ---
-# Assuming each row in events_df represents one game appearance for that player_id
-games_per_season = (
-    events_df
-    .groupby(['player_id', 'season'])
-    .size()
-    .reset_index(name='played')
-)
-
-# --- Merge with players list to ensure all players appear for all seasons ---
-# Build a full player-season grid
-seasons = range(2018, 2025)
-player_season_grid = (
-    pd.MultiIndex.from_product([players_df['player_id'], seasons], names=['player_id', 'season'])
-    .to_frame(index=False)
-)
-
-# --- Join the counts, fill missing games with 0 ---
-game_played = (
-    player_season_grid
-    .merge(games_per_season, on=['player_id', 'season'], how='left')
-    .fillna({'played': 0})
-)
-
-# --- Add player_name from players.csv ---
-game_played = game_played.merge(
-    players_df[['player_id', 'player']],
-    on='player_id',
-    how='left'
-)
-
-game_played['played'] = game_played['played'].astype(int)
-
-# --- Reorder columns ---
-game_played = game_played[['player_id', 'player', 'season', 'played']]
-
-# --- Save final result ---
-game_played.to_csv(output_path, index=False)
-
-
-
-players_path = "data/final_selected_8000/players.csv"
-events_path  = "data/game_lineups.csv"
-games_path   = "data/dataset_2/games.csv"
-output_path  = "data/game_played_results.csv"
-
-# ─── LOAD DATA ───────────────────────────────────────────
-players_df = pd.read_csv(players_path)
-events_df  = pd.read_csv(events_path)
-games_df   = pd.read_csv(games_path)
-
-# ─── PARSE DATES & SEASONS ───────────────────────────────
-events_df['date'] = pd.to_datetime(events_df['date'], errors='coerce')
-events_df['season'] = events_df['date'].dt.year
-events_df = events_df[(events_df['season'] >= 2018) & (events_df['season'] <= 2024)]
-
-# ─── MERGE EVENTS WITH GAMES INFO ────────────────────────
-# Each event row (player_id, club_id, game_id) now gains home/away goals & IDs
-merged = events_df.merge(
-    games_df[['game_id', 'home_club_id', 'away_club_id', 'home_club_goals', 'away_club_goals']],
-    on='game_id',
-    how='left'
-)
-
-# ─── FUNCTION TO DETERMINE OUTCOME ───────────────────────
-def compute_outcome(row):
-    hc, ac = row['home_club_goals'], row['away_club_goals']
-    cid = row['club_id']
-
-    # missing info → no contribution
-    if pd.isna(hc) or pd.isna(ac) or pd.isna(cid):
-        return (0, 0, 0, 0, 0)
-
-    # player club is home
-    if cid == row['home_club_id']:
-        diff = hc - ac
-    # player club is away
-    elif cid == row['away_club_id']:
-        diff = ac - hc
-    else:
-        # mismatch, skip
-        return (0, 0, 0, 0, 0)
-
-    # classify result
-    if diff > 0:
-        win = 1
-        draw = lose = 0
-        win_for_1 = 1 if diff == 1 else 0
-        win_for_2plus = 1 if diff >= 2 else 0
-    elif diff == 0:
-        win = lose = 0
-        draw = 1
-        win_for_1 = win_for_2plus = 0
-    else:
-        win = 0
-        draw = 0
-        lose = 1
-        win_for_1 = win_for_2plus = 0
-
-    return (win, draw, lose, win_for_1, win_for_2plus)
-
-# ─── APPLY OUTCOME LOGIC ─────────────────────────────────
-merged[['wins', 'draws', 'loses', 'wins_for_1', 'wins_for_2+']] = \
-    merged.apply(compute_outcome, axis=1, result_type='expand')
-
-# ─── AGGREGATE PER PLAYER  SEASON ───────────────────────
-agg = (
-    merged.groupby(['player_id', 'season'], as_index=False)
-    .agg({
-        'game_id': 'nunique',   # count distinct games played
-        'wins': 'sum',
-        'draws': 'sum',
-        'loses': 'sum',
-        'wins_for_1': 'sum',
-        'wins_for_2+': 'sum'
-    })
-    .rename(columns={'game_id': 'games'})
-)
-
-# ─── BUILD FULL GRID (PLAYER × SEASON) ────────────────────
-seasons = range(2018, 2025)
-player_season_grid = (
-    pd.MultiIndex.from_product([players_df['player_id'], seasons],
-                               names=['player_id', 'season'])
-    .to_frame(index=False)
-)
-
-# ─── MERGE COUNTS, FILL MISSING WITH 0 ───────────────────
-final = (
-    player_season_grid
-    .merge(agg, on=['player_id', 'season'], how='left')
-    .fillna(0)
-)
-
-# ─── CAST TO INT ─────────────────────────────────────────
-for col in ['games', 'wins', 'draws', 'loses', 'wins_for_1', 'wins_for_2+']:
-    final[col] = final[col].astype(int)
-
-# ─── ADD PLAYER NAME ─────────────────────────────────────
-final = final.merge(
-    players_df[['player_id', 'player']],
-    on='player_id',
-    how='left'
-)
-
-# ─── REORDER COLUMNS ─────────────────────────────────────
-final = final[['player_id', 'player', 'season', 'games', 'wins',
-               'draws', 'loses', 'wins_for_1', 'wins_for_2+']]
-
-# ─── SAVE RESULT ─────────────────────────────────────────
-final.to_csv(output_path, index=False)
-
-valuations_path = "data/final_selected_8000/valuations.csv"
-players_path    = "data/final_selected_8000/players.csv"
-lineups_path    = "data/game_events_lineups.csv"
-clubs_path      = "data/dataset_2/clubs.csv"
-output_path     = "data/valuations_with_stadium.csv"
-
-# --- Load datasets ---
-valuations = pd.read_csv(valuations_path)
-lineups    = pd.read_csv(lineups_path)
-clubs      = pd.read_csv(clubs_path)
-
-# --- Ensure date column is datetime ---
-lineups['date'] = pd.to_datetime(lineups['date'], errors='coerce')
-
-# --- Extract season from the date ---
-lineups['season'] = lineups['date'].dt.year
-
-# --- Filter to seasons 2018–2024 ---
-lineups = lineups[(lineups['season'] >= 2018) & (lineups['season'] <= 2024)]
-
-# --- Sort by date and keep first occurrence per player-season ---
-lineups = (
-    lineups.sort_values('date')
-           .drop_duplicates(subset=['player_id', 'season'], keep='first')
-)
-
-# --- Merge with clubs to get only stadium name ---
-lineups = lineups.merge(
-    clubs[['club_id', 'stadium_name']],
-    on='club_id',
-    how='left'
-)
-
-# --- Merge stadium name into valuations ---
-valuations = valuations.merge(
-    lineups[['player_id', 'season', 'stadium_name']],
-    on=['player_id', 'season'],
-    how='left'
-)
-
-# --- Save result ---
-valuations.to_csv(output_path, index=False)
-
-# --- File paths (adjust as needed) ---
-players_path  = "data/final_selected_8000/valuations.csv"
-transfer_path = "data/dataset_2/transfers.csv"
-output_path   = "data/players_with_transfers.csv"
-
-# --- Load datasets ---
-players  = pd.read_csv(players_path)
-transfer = pd.read_csv(transfer_path)
-
-# --- Ensure date column is datetime ---
-transfer['transfer_date'] = pd.to_datetime(transfer['transfer_date'], errors='coerce')
-
-# --- Extract season (year) from the transfer date ---
-transfer['season'] = transfer['transfer_date'].dt.year
-
-# --- Keep only relevant columns ---
-transfer = transfer[['player_id', 'season', 'transfer_date', 'market_value_in_eur', 'transfer_fee']]
-
-# --- For players with multiple transfers in a season, take the latest one ---
-transfer_latest = (
-    transfer.sort_values('transfer_date')
-            .drop_duplicates(subset=['player_id', 'season'], keep='last')
-)
-
-# --- Rename columns for clarity ---
-transfer_latest = transfer_latest.rename(columns={
-    'transfer_date': 'transfer_date',
-    'market_value_in_eur': 'market_value_in_eur',
-    'transfer_fee': 'transfer_fee'
-})
-
-# --- If players.csv does not yet have season info, extract from the dataset you have ---
-# (optional — only if players.csv has per-season rows)
-if 'season' not in players.columns:
-    print("⚠️ 'players.csv' has no 'season' column. Transfers will be merged only by player_id.")
-    enriched = players.merge(transfer_latest.drop(columns='season'),
-                             on='player_id', how='left')
-else:
-    # Merge using both player_id and season
-    enriched = players.merge(transfer_latest,
-                             on=['player_id', 'season'], how='left')
-
-# --- Save result ---
-enriched.to_csv(output_path, index=False)
-
 
 
 players_path  = "data/final_selected_8000/valuations.csv"
@@ -886,40 +573,18 @@ df['decade'] = df['season'].apply(assign_decade)
 df.to_csv(output_path, index=False)
 
 
-games_played_path = "data/game_played_results.csv"           # the file to be filtered
-games_played = pd.read_csv(games_played_path)
+
 output_games_play ="data/final_selected_8000/game_played.csv"
 output_valuations = "data/final_selected_8000/valuations.csv"
 
 valuations['player_id']   = pd.to_numeric(valuations['player_id'], errors='coerce').astype('Int64')
 valuations['season']      = pd.to_numeric(valuations['season'], errors='coerce').astype('Int64')
-games_played['player_id'] = pd.to_numeric(games_played['player_id'], errors='coerce').astype('Int64')
-games_played['season']    = pd.to_numeric(games_played['season'], errors='coerce').astype('Int64')
-
-# Build set of valid pairs from valuations
-valid_pairs = set(zip(valuations['player_id'], valuations['season']))
-
-# Keep only matching rows
-mask = [(pid, yr) in valid_pairs for pid, yr in zip(games_played['player_id'], games_played['season'])]
-games_played_filtered = games_played.loc[mask]
-
-# Save filtered file
-games_played_filtered.to_csv(output_games_play, index=False)
-
-if 'club_name' in valuations.columns:
-    valuations = valuations.drop(columns=['club_name'])
-
-if 'club_in_season' in valuations.columns:
-    valuations = valuations.rename(columns={'club_in_season': 'squad'})
-
-# Save cleaned valuations
-valuations.to_csv(output_valuations, index=False)
-"""
 
 
 DATA1_DIR = "data/final_selected_8000"
 output_path = "data/postgre"
-"""
+
+
 # List of all stat CSVs
 stat_files = [
     "player_defense.csv",
@@ -930,7 +595,7 @@ stat_files = [
     "player_possession.csv",
     "player_shooting.csv",
     "player_standard_stats.csv",
-    "valuations_with_transfers.csv"
+    "valuations.csv"
 ]
 
 # Merge keys common to all
@@ -952,9 +617,100 @@ merged = merged.loc[:, ~merged.columns.duplicated()]
 merged_path = os.path.join(DATA1_DIR, "merged_stats_all.csv")
 merged.to_csv(merged_path, index=False)
 
-print(f"✅ Merged all stat files → {merged_path}")
+print(f" Merged all stat files  {merged_path}")
 """
 """
+
+# 1. DIM_MARKET
+print("Generating dim_market.csv...")
+# Extract unique combinations directly from the data we will load
+dim_market = full_data[['market_value_range', 'value_tier']].drop_duplicates().sort_values('market_value_range')
+dim_market.reset_index(drop=True, inplace=True)
+dim_market.insert(0, 'market_id', range(1, len(dim_market) + 1))
+dim_market.rename(columns={'market_value_range': 'Market_Value_Range', 'value_tier': 'Market_Value_Tier'}, inplace=True)
+dim_market.to_csv(os.path.join(POSTGRE_DIR, "dim_market.csv"), index=False)
+
+
+# 2. DIM_CLUB
+print("Generating dim_club.csv...")
+# Extract unique clubs from the data
+dim_club = full_data[['club_in_year', 'competition_name']].drop_duplicates()
+dim_club.rename(columns={'club_in_year': 'Club', 'comp': 'Competition'}, inplace=True)
+dim_club.reset_index(drop=True, inplace=True)
+dim_club.insert(0, 'club_id', range(1, len(dim_club) + 1))
+
+# Add Manual Country/Continent Mapping
+print("Mapping Club Countries/Continents manually...")
+league_to_country = {
+    'Premier League': 'England', 'Serie A': 'Italy', 'La Liga': 'Spain',
+    'Bundesliga': 'Germany', 'Ligue 1': 'France'
+}
+dim_club['Country'] = dim_club['Competition'].map(league_to_country)
+dim_club['Continent'] = 'Europe' 
+dim_club.to_csv(os.path.join(POSTGRE_DIR, "dim_club.csv"), index=False)
+
+
+# 3. DIM_SEASON
+print("Generating dim_season.csv...")
+dim_season = full_data[['year', 'decade']].drop_duplicates().sort_values('year')
+dim_season.rename(columns={'year': 'Season', 'decade': 'Decade'}, inplace=True)
+dim_season.reset_index(drop=True, inplace=True)
+dim_season.insert(0, 'season_id', range(1, len(dim_season) + 1))
+dim_season.to_csv(os.path.join(POSTGRE_DIR, "dim_season.csv"), index=False)
+
+
+# 4. DIM_POSITION
+print("Generating dim_position.csv...")
+dim_position = full_data[['position', 'general_position']].drop_duplicates()
+dim_position.rename(columns={'position': 'Position', 'general_position': 'Role'}, inplace=True)
+dim_position.reset_index(drop=True, inplace=True)
+dim_position.insert(0, 'position_id', range(1, len(dim_season) + 1))
+dim_position.to_csv(os.path.join(POSTGRE_DIR, "dim_position.csv"), index=False)
+
+
+# 5. DIM_AGE
+print("Generating dim_age.csv...")
+dim_age = full_data[['age', 'age_range']].drop_duplicates()
+dim_age.rename(columns={'age': 'Age', 'age_range': 'Age_Range'}, inplace=True)
+dim_age.reset_index(drop=True, inplace=True)
+dim_age.insert(0, 'age_id', range(1, len(dim_season) + 1))
+dim_age.to_csv(os.path.join(POSTGRE_DIR, "dim_age.csv"), index=False) 
+
+
+# 6. DIM_PLAYER
+print("Generating dim_player.csv...")
+# For player, we still need the original players.csv for metadata (Height, Foot, City),
+# but we filter it using the IDs present in our Master Table
+players_raw = pd.read_csv(os.path.join(D2_DIR, "players.csv"))
+active_player_ids = full_data['player_id'].unique()
+
+dim_player = players_raw[players_raw['player_id'].isin(active_player_ids)].copy()
+
+cols_to_keep = ['player_id', 'first_name', 'last_name', 'country_of_birth', 'city_of_birth', 'foot', 'height_in_cm']
+existing_cols = [c for c in cols_to_keep if c in dim_player.columns]
+dim_player = dim_player[existing_cols].copy()
+
+dim_player['Name'] = (dim_player['first_name'].fillna('') + ' ' + dim_player['last_name'].fillna('')).str.strip()
+dim_player.drop(columns=['first_name', 'last_name'], inplace=True, errors='ignore')
+
+dim_player.rename(columns={
+    'country_of_birth': 'Country_of_Birth', 'city_of_birth': 'City_of_Birth',
+    'foot': 'Foot', 'height_in_cm': 'Height'
+}, inplace=True)
+
+# Add Continent map from stats (Dataset 1)
+country_to_continent = {}
+for fname in stat_files:
+    path = os.path.join(D1_DIR, fname)
+    if os.path.exists(path):
+        try:
+            df_geo = pd.read_csv(path, usecols=['country', 'continent']).dropna().drop_duplicates()
+            country_to_continent.update(pd.Series(df_geo.continent.values, index=df_geo.country).to_dict())
+        except: continue
+
+dim_player['Continent_of_Birth'] = dim_player['Country_of_Birth'].map(country_to_continent).fillna('Unknown')
+dim_player.to_csv(os.path.join(POSTGRE_DIR, "dim_player.csv"), index=False)
+
 # ---- Load base merged file with all attributes (already joined) ----
 fact = pd.read_csv(os.path.join(DATA1_DIR, "merged_stats_all.csv"))  # ← or rebuild via merging step
 
@@ -964,8 +720,6 @@ dim_club     = pd.read_csv(os.path.join(DATA_DIR, "dim_club.csv"))
 dim_season   = pd.read_csv(os.path.join(DATA_DIR, "dim_season.csv"))
 dim_position = pd.read_csv(os.path.join(DATA_DIR, "dim_position.csv"))
 dim_market   = pd.read_csv(os.path.join(DATA_DIR, "dim_market.csv"))
-dim_transfer = pd.read_csv(os.path.join(DATA_DIR, "dim_transfer.csv"))
-dim_games    = pd.read_csv(os.path.join(DATA_DIR, "dim_games_played.csv"))
 dim_age    = pd.read_csv(os.path.join(DATA_DIR, "dim_age.csv"))
 
 
@@ -978,23 +732,22 @@ fact = fact.merge(dim_position[["position_id", "position", "general_position"]],
                   on=["position", "general_position"], how="left")
 fact = fact.merge(dim_market[["market_id", "market_value_in_eur"]],
                   on="market_value_in_eur", how="left")
-fact = fact.merge(dim_transfer[["transfer_id", "player_id", "season"]],
-                  on=["player_id", "season"], how="left")
-fact = fact.merge(dim_games[["games_id", "player_id", "season"]],
-                  on=["player_id", "season"], how="left")
 fact = fact.merge(dim_age[["age_id", "age"]],
                   on=["age"], how="left")
 
 # ---- Select only chosen measures ----
-measures = [
-    "goals", "assists", "xg",
-    "progressive_passes", "progressive_carries", "passes_completed", "key_passes",
-    "tackles", "interceptions", "clearances", "blocks", "fouls"
-    "yellow_cards", "red_cards", "dribblers_challenged",
-    "goals_per_90", "assists_per_90", "xg_per_90", "dribblers_tackled",
-    "goals_assists", "shot_on_target_per_90", "errors", "aerials_won", "through_balls",
-    "carries_into_final_third", "shot_creating_actions", "non_penalty_xg", "shots_per_90"
-]
+measure_map = {
+    'goals': 'Goals', 'goals_per90': 'Goals_per90', 'assists': 'Assists', 'assists_per90': 'Assists_per90',
+    'goals_assists': 'Goals_Assists', 'npxg': 'Non_Penalty_xG', 'xg': 'xG', 'xg_per90': 'xG_per90',
+    'shots_per90': 'Shots_per90', 'sca': 'Shot_Creating_Actions', 'passes': 'Passes_Completed', 
+    'progressive_passes': 'Progressive_Passes', 'progressive_carries': 'Progressive_Carries',
+    'key_passes': 'Key_Passes', 'carries_into_final_third': 'Carries_into_Final_Third',
+    'through_balls': 'Through_Balls', 'dribbles_tackled': 'Dribblers_Tackled', 
+    'dribbles_challenged': 'Dribblers_Challenged', 'tackles': 'Tackles', 'clearances': 'Clearances',
+    'interceptions': 'Interceptions', 'blocks': 'Blocks', 'fouls': 'Fouls', 'errors': 'Errors',
+    'aerials_won': 'Aerials_Won', 'yellow_cards': 'Yellow_Cards', 'red_cards': 'Red_Cards',
+    'market_value_in_eur': 'Market_Value'
+}
 
 # Keep only columns that exist
 measures = [m for m in measures if m in fact.columns]
@@ -1009,17 +762,17 @@ fact_table.insert(0, "fact_id", range(1, len(fact_table) + 1))
 output_path = os.path.join(DATA_DIR, "fact_player_statistics.csv")
 fact_table.to_csv(output_path, index=False)
 
-print(f"✅ fact_player_statistics.csv created with {len(fact_table)} rows and {len(fact_table.columns)} columns.")
+print(f" fact_player_statistics.csv created with {len(fact_table)} rows and {len(fact_table.columns)} columns.")
 
 
-"""
+
 user = "postgres"
-password = "maucione_M03"
+password = ""
 host = "localhost"
 port = "5432"
 database = "Project_DW"
 
-engine = create_engine("postgresql+psycopg2://postgres:maucione_M03@localhost:5432/Football_DW")
+engine = create_engine("postgresql+psycopg2://postgres:@localhost:5432/Football_DW")
 
 DATA_DIR = "data/postgre"
 tables = {
@@ -1029,30 +782,14 @@ tables = {
     "Dim_Club": "dim_club.csv",
     "Dim_Season": "dim_season.csv",
     "Dim_Market": "dim_market.csv",
-    "Dim_Transfer": "dim_transfer.csv",
-    "Dim_GamesPlayed": "dim_games_played.csv",
     "Fact_PlayerStats": "fact_player_statistics.csv"
 }
-"""
+
 for table, filename in tables.items():
     path = os.path.join(DATA_DIR, filename)
     df = pd.read_csv(path)
     print(f"Uploading {table} ({len(df)} rows)...")
     df.to_sql(table, engine, schema="public", if_exists="append", index=False)
-print("✅ All tables uploaded successfully.")
+print("All tables uploaded successfully.")
 
-
-
-engine = create_engine("postgresql+psycopg2://postgres:maucione_M03@localhost:5432/Football_DW")
-
-df = pd.read_csv("data/final_selected_8000/merged_stats_all.csv",
-                 usecols=["player_id", "season", "Fouls", "Yellow_Cards"])
-
-df.to_sql("temp_misc", engine, schema="public", if_exists="replace", index=False)
 """
-PATH = "data/postgre/fact_player_statistics.csv"
-fact_player_stats = pd.read_csv(PATH)
-
-fact_player_stats['transfer_id'] = pd.to_numeric(fact_player_stats['transfer_id'], errors='coerce').astype('Int64')
-
-fact_player_stats.to_csv(PATH)
